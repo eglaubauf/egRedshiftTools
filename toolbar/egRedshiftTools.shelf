@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shelfDocument>
+  <!-- This file contains definitions of shelves, toolbars, and tools.
+ It should not be hand-edited when it is being used by the application.
+ Note, that two definitions of the same element are not allowed in
+ a single file. -->
+
+  <toolshelf name="egRedshiftTools" label="egRedshiftTools">
+    <memberTool name="matBuild"/>
+    <memberTool name="Apply Mat"/>
+    <memberTool name="camToROP"/>
+    <memberTool name="MakeTakes"/>
+  </toolshelf>
+
+  <tool name="RS MaterialBuild" label="RSMaterialBuild" icon="$EGRS_ICONS/redshift.png">
+    <script scriptType="python"><![CDATA[import eg_materialBuild_RS
+reload(eg_materialBuild_RS)
+eg_materialBuild_RS.run()]]></script>
+  </tool>
+
+  <tool name="Apply RsMat" label="ApplyRsMat" icon="$EGRS_ICONS/redshift.png">
+    <script scriptType="python"><![CDATA[import eg_applyRSMat
+reload(eg_applyRSMat)
+eg_applyRSMat.ApplyRSMat()]]></script>
+  </tool>
+
+  <tool name="matBuild" label="matBuild" icon="$EGRS_ICONS/redshift.png">
+    <script scriptType="python"><![CDATA[import eg_materialBuild_RS
+reload(eg_materialBuild_RS)
+eg_materialBuild_RS.run()]]></script>
+  </tool>
+</shelfDocument>
