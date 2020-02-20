@@ -29,4 +29,22 @@ eg_applyRSMat.ApplyRSMat()]]></script>
 reload(eg_materialBuild_RS)
 eg_materialBuild_RS.run()]]></script>
   </tool>
+
+  <tool name="Apply Mat" label="Apply Mat" icon="$EGRS_ICONS/redshift.png">
+    <script scriptType="python"><![CDATA[import eg_applyRSMat
+reload(eg_applyRSMat)
+eg_applyRSMat.ApplyRSMat()]]></script>
+  </tool>
+
+  <tool name="camToROP" label="camToROP" icon="$EGRS_ICONS/redshift.png">
+    <script scriptType="python"><![CDATA[import eg_camToROP
+reload(eg_camToROP)
+eg_camToROP.run()]]></script>
+  </tool>
+
+  <tool name="MakeTakes" label="MakeTakes" icon="$EGRS_ICONS/redshift.png">
+    <script scriptType="python"><![CDATA[import eg_takesFromCams
+reload(eg_takesFromCams)
+eg_takesFromCams.TakesFromCams()]]></script>
+  </tool>
 </shelfDocument>
