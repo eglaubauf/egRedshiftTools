@@ -29,6 +29,10 @@ Web: www.elmar-glaubauf.at
 """
 import hou
 import eg_createRSMat
+import eg_setupOGL
+
+reload(eg_createRSMat)
+reload(eg_setupOGL)
 
 
 class ApplyRSMat():
@@ -53,11 +57,13 @@ class ApplyRSMat():
             if not n.isSubNetwork():
                 m = eg_createRSMat.RSMat(self.context, n.name())
                 n.parm("shop_materialpath").set(m.get_path())
+                # Setup OpenGL Shaders
+                eg_setupOGL.rsOGL(m.get_materialbuilder())
                 self.count += 1
 
     def display_message(self):
         """Displays the Count of Created Materials to the User"""
         if self.count > 0:
-            hou.ui.displayMessage(str(self.count) + ' Materialnodes have been csreated')
+            hou.ui.displayMessage(str(self.count) + ' Materialnodes have been created')
         else:
             hou.ui.displayMessage('Please select OBJ-Nodes to create Materials')

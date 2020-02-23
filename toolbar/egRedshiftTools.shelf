@@ -10,6 +10,7 @@
     <memberTool name="Apply Mat"/>
     <memberTool name="camToROP"/>
     <memberTool name="MakeTakes"/>
+    <memberTool name="setupOGL"/>
   </toolshelf>
 
   <tool name="RS MaterialBuild" label="RSMaterialBuild" icon="$EGRS_ICONS/redshift.png">
@@ -25,9 +26,9 @@ eg_applyRSMat.ApplyRSMat()]]></script>
   </tool>
 
   <tool name="matBuild" label="matBuild" icon="$EGRS_ICONS/redshift.png">
-    <script scriptType="python"><![CDATA[import eg_materialBuild_RS
-reload(eg_materialBuild_RS)
-eg_materialBuild_RS.run()]]></script>
+    <script scriptType="python"><![CDATA[import materialBuild_RS.controller as matBuildRS
+reload(matBuildRS)
+matBuildRS.open()]]></script>
   </tool>
 
   <tool name="Apply Mat" label="Apply Mat" icon="$EGRS_ICONS/redshift.png">
@@ -46,5 +47,11 @@ eg_camToROP.run()]]></script>
     <script scriptType="python"><![CDATA[import eg_takesFromCams
 reload(eg_takesFromCams)
 eg_takesFromCams.TakesFromCams()]]></script>
+  </tool>
+
+  <tool name="setupOGL" label="setup OGL" icon="$EGRS_ICONS/redshift.png">
+    <script scriptType="python"><![CDATA[import eg_setupOGL
+reload(eg_setupOGL)
+eg_setupOGL.rsOGL()]]></script>
   </tool>
 </shelfDocument>

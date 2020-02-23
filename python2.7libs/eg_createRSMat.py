@@ -1,5 +1,5 @@
 #####################################
-#  LICENSE                            #
+#              LICENSE              #
 #####################################
 #
 # Copyright (C) 2020  Elmar Glaubauf
@@ -43,14 +43,22 @@ class RSMat():
         # RS Material Builder
         self.material_builder = self.mat.createNode("redshift_vopnet")
         self.material_builder.setName(self.name, True)
-        self.material_builder.moveToGoodPosition()
 
         # RS Material
         redshift_material = self.material_builder.children()[0]
         rs_mat = self.material_builder.createNode('redshift::Material')
         redshift_material.setInput(0, rs_mat, 0)
 
+        self.material_builder.layoutChildren()
+
+    def get_materialbuilder(self):
+        """Returns the MaterialBuilder"""
+        return self.material_builder
+
     def get_path(self):
         """Returns the Path to the MaterialBuilder"""
         return self.material_builder.path()
-        # alternative: relativePathTo(base_node)--> str
+
+    def get_name(self):
+        """Returns the Name of the Material"""
+        return self.name
