@@ -24,6 +24,7 @@
 
 import hou
 import eg_RSMat
+import eg_setupOGL
 import re
 
 reload(eg_RSMat)
@@ -111,10 +112,14 @@ class Core():
         if self.convert:
             self.convertTextures()
 
+    def createOGLAttribs(self):
+        eg_setupOGL.rsOGL(self.material.get_material_builder())
+
     def applyMat(self):
         displace = self.material.get_displace()
-        for n in self.nodes:
-            n.parm("shop_materialpath").set(self.material.get_path())
-            if displace:
-                n.parm("RS_objprop_rstess_enable").set(1)
-                n.parm("RS_objprop_displace_enable").set(1)
+        if self.nodes:
+            for n in self.nodes:
+                n.parm("shop_materialpath").set(self.material.get_path())
+                if displace:
+                    n.parm("RS_objprop_rstess_enable").set(1)
+                    n.parm("RS_objprop_displace_enable").set(1)

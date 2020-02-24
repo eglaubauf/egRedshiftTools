@@ -217,6 +217,10 @@ class RSMat():
                 self.ao = s
         return True
 
+    def get_material_builder(self):
+        """Returns the MaterialBuilder"""
+        return self.material_builder
+
     def get_path(self):
         """Returns the Path to the MaterialBuilder"""
         return self.material_builder.path()

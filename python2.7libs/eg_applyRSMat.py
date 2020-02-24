@@ -27,6 +27,7 @@ This script will create a Redshift Node Network based on a file selection
 Twitter: @eglaubauf
 Web: www.elmar-glaubauf.at
 """
+
 import hou
 import eg_createRSMat
 import eg_setupOGL
@@ -50,6 +51,12 @@ class ApplyRSMat():
 
     def create_materials(self):
         """Iterates over all selected Nodes and applies a Material"""
+        # With No Selection just create a Material Node
+        if not self.nodes:
+            m = eg_createRSMat.RSMat(self.context)
+            # Setup OpenGL Shaders
+            eg_setupOGL.rsOGL(m.get_materialbuilder())
+            self.count += 1
         for n in self.nodes:
             # Check against OBJ-Level Nodes and Subnets
             if n.type().category() != hou.objNodeTypeCategory():
