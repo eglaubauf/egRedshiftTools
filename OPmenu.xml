@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <menuDocument>
      <menu>
-
             <!--***********************************-->
             <scriptItem id="applyRSMAT">
-                    <labelExpression>
+                <context>
+                    <expression>
+<![CDATA[
+n = kwargs.get("node", None)
+if n.type().name() != "geo":
+    return False
+return True ]]>
+                    </expression>
+                </context>
+                <labelExpression>
 <![CDATA[
 n = kwargs.get("node", None)
 if n.type().name() != "geo":
@@ -12,7 +20,7 @@ if n.type().name() != "geo":
 else:
     return "Apply RS Material"
 ]]>
-                    </labelExpression>
+                </labelExpression>
                 <scriptCode>
 <![CDATA[
 n = kwargs.get("node", None)
@@ -22,6 +30,38 @@ else:
     import eg_applyRSMat
     reload(eg_applyRSMat)
     eg_applyRSMat.ApplyRSMat()
+]]>
+                </scriptCode>
+            </scriptItem>
+                            <!--***********************************-->
+            <scriptItem id="setupOGL">
+                <context>
+                    <expression>
+<![CDATA[
+n = kwargs.get("node", None)
+if n.type().name() != "redshift_vopnet":
+    return False
+return True ]]>
+                    </expression>
+                </context>
+                <labelExpression>
+<![CDATA[
+n = kwargs.get("node", None)
+if n.type().name() != "redshift_vopnet":
+    return "Unavailable in this Context"
+else:
+    return "Setup OGL"
+]]>
+                </labelExpression>
+                <scriptCode>
+<![CDATA[
+n = kwargs.get("node", None)
+if n.type().name() != "redshift_vopnet":
+    hou.ui.displayMessage('Please select a RSMB to Setup OGL')
+else:
+    import eg_setupOGL
+    reload(eg_setupOGL)
+    eg_setupOGL.rsOGL()
 ]]>
                 </scriptCode>
             </scriptItem>
