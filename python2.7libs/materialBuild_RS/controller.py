@@ -79,7 +79,7 @@ class Controller(QtWidgets.QDialog, view.Ui_RSMatBuilder):
 
         self.cbx_applyMat.toggled.connect(self.setApplyMat)
         self.cbx_context.toggled.connect(self.setContext)
-        self.cbx_convert.toggled.connect(self.setConvert(self.cbx_convert.isChecked()))
+        self.cbx_convert.toggled.connect(self.setConvert)
         self.cbx_setupOGL.toggled.connect(self.setOGL)
         self.cbx_useTex.toggled.connect(self.useTex)
         self.buttonBox.rejected.connect(self.destroy)
@@ -114,14 +114,17 @@ class Controller(QtWidgets.QDialog, view.Ui_RSMatBuilder):
         if not self.cbx_useTex.isChecked():
             self.cbx_convert.setDisabled(True)
             self.cbx_convert.setChecked(False)
-            self.setConvert(False)
+            self.setConvert()
         else:
             self.cbx_convert.setDisabled(False)
 
         self.core.setUseTex(self.cbx_useTex.isChecked())
 
-    def setConvert(self, enabled):
-        self.core.setConvert(enabled)
+    def setConvert(self, ):
+        if self.cbx_convert.isChecked():
+            self.core.setConvert(True)
+        else:
+            self.core.setConvert(False)
 
     # Execute Material Creation
     def execute(self):
