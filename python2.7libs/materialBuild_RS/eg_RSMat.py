@@ -29,10 +29,21 @@ Web: www.elmar-glaubauf.at
 """
 import hou
 
+# TODO: Make OOP Texture Convert and File Read
+# TODO: Make Linear/sRBG Switch, based on File name
 
 class RSMat():
     """Creates an RS-Material in the given context"""
-    def __init__(self, context=hou.node("/mat"), name="RedshiftMaterial", tex=False):
+    def __init__(self, context=hou.node("/mat"), name="RedshiftMaterial", tex=False, convert=False):
+
+        self.convert = convert
+
+        if self.convert:
+            # Check against OCIO
+            if not hou.getenv("OCIO"):
+                hou.ui.displayMessage("Please enable OCIO to convert Textures")
+                return
+
         self.context = context
         self.name = name
         self.tex = tex
@@ -88,20 +99,36 @@ class RSMat():
         #     Layers    #
         #################
         if self.base_color != "":
+            if self.convert:
+                self.base_color = self.convert_files(self.base_color, 0)
             self.create_texture(self.material_builder, self.rs_mat, self.base_color, "Base_Color")
             if self.ao != "":
+                if self.convert:
+                    self.ao = self.convert_files(self.ao, 0)
                 self.create_texture(self.material_builder, self.rs_mat, self.ao, "Ambient_Occlusion")
         if self.roughness != "":
+            if self.convert:
+                self.roughness = self.convert_files(self.roughness, 0)
             self.create_texture(self.material_builder, self.rs_mat, self.roughness, "Roughness")
         if self.metallic != "":
+            if self.convert:
+                self.metallic = self.convert_files(self.metallic, 0)
             self.create_texture(self.material_builder, self.rs_mat, self.metallic, "Metallic")
         if self.reflect != "":
+            if self.convert:
+                self.reflect = self.convert_files(self.reflect, 0)
             self.create_texture(self.material_builder, self.rs_mat, self.reflect, "Reflectivity")
         if self.normal != "":
+            if self.convert:
+                self.normal = self.convert_files(self.normal, 0)
             self.create_normal(self.material_builder, self.rs_mat, self.normal, "Normal")
         if self.bump != "":
+            if self.convert:
+                self.bump = self.convert_files(self.bump, 0)
             self.create_bump(self.material_builder, self.rs_mat, self.bump, "Bump")
         if self.displace != "":
+            if self.convert:
+                self.displace = self.convert_files(self.displace, 0)
             self.create_displace(self.material_builder, self.redshift_material, self.displace, "Displacement")
             self.displaceFlag = 1
 
@@ -216,6 +243,50 @@ class RSMat():
             elif "ao" in name.lower() or "ambient_occlusion" in name:
                 self.ao = s
         return True
+
+    def convert_files(self, channel, linear):
+
+        # Get Reference to COPs Context
+        cop = hou.node("/img")
+        img = cop.createNode("img", "tmp")
+
+        # Create ReadNode
+        read = img.createNode("file")
+
+        # Set ColorSpace
+        if linear == 1:
+            read.parm("colorspace").set("linear")
+        else:
+            read.parm("colorspace").set("srgb")
+
+        # Create OCIO Node
+        ocio = img.createNode("eg_ocio_convert")
+        ocio.setInput(0, read, 0)
+
+        # Create RopNode
+        rop = img.createNode("rop_comp")
+        rop.setInput(0, ocio, 0)
+        rop.parm("trange").set(0)
+
+        # Convert Stuff
+        read.parm("filename1").set(channel)
+
+        # Change Filename
+        namePos = channel.rfind(".")
+        ext = channel[namePos:]
+        print(ext)
+        name = channel[:namePos]
+        name = name + "_OCIO" + ext
+
+        # Render
+        rop.parm("copoutput").set(name)
+        rop.parm("execute").pressButton()
+
+        # Cleanup
+        img.destroy()
+
+        # Return new Filename to Caller
+        return name
 
     def get_material_builder(self):
         """Returns the MaterialBuilder"""

@@ -99,7 +99,7 @@ class Core():
             self.context = self.context.createNode("matnet")
 
         # Create Material
-        self.material = eg_RSMat.RSMat(self.context, self.name, self.useTex)
+        self.material = eg_RSMat.RSMat(self.context, self.name, self.useTex, self.convert)
 
         # Apply Material to Selection
         if self.apply:
@@ -109,9 +109,9 @@ class Core():
         if self.ogl:
             self.create_ogl_attribs()
 
-        # Convert Textures to .rs Files
-        if self.convert:
-            self.convert_textures()
+        # TODO: Convert Textures to OCIO - OOP
+        # if self.convert:
+        #     self.convert_textures()
 
     def create_ogl_attribs(self):
         eg_setupOGL.rsOGL(self.material.get_material_builder())
@@ -124,6 +124,3 @@ class Core():
                 if displace:
                     n.parm("RS_objprop_rstess_enable").set(1)
                     n.parm("RS_objprop_displace_enable").set(1)
-
-    def convert_textures(self):
-        pass
