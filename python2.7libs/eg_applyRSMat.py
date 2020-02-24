@@ -31,6 +31,7 @@ Web: www.elmar-glaubauf.at
 import hou
 import eg_createRSMat
 import eg_setupOGL
+from collections import Iterable
 
 reload(eg_createRSMat)
 reload(eg_setupOGL)
@@ -38,9 +39,15 @@ reload(eg_setupOGL)
 
 class ApplyRSMat():
     """Applies an RS MAT to a Selection"""
-    def __init__(self):
+    def __init__(self, n=None):
         self.context = hou.node("/mat")
-        self.nodes = self.get_nodes()
+
+        # Check if Called Via RightClickMenu
+        if not n:
+            self.nodes = self.get_nodes()
+        else:
+            self.nodes = n
+
         self.count = 0
         self.create_materials()
         self.display_message()
@@ -57,13 +64,25 @@ class ApplyRSMat():
             # Setup OpenGL Shaders
             eg_setupOGL.rsOGL(m.get_materialbuilder())
             self.count += 1
-        for n in self.nodes:
-            # Check against OBJ-Level Nodes and Subnets
-            if n.type().category() != hou.objNodeTypeCategory():
-                break
-            if not n.isSubNetwork():
-                m = eg_createRSMat.RSMat(self.context, n.name())
-                n.parm("shop_materialpath").set(m.get_path())
+        # Check if Called Via RightClickMenu
+        if isinstance(self.nodes, Iterable):
+            for n in self.nodes:
+                # Check against OBJ-Level Nodes and Subnets
+                if n.type().category() != hou.objNodeTypeCategory():
+                    break
+                if not n.isSubNetwork():
+                    m = eg_createRSMat.RSMat(self.context, n.name())
+                    n.parm("shop_materialpath").set(m.get_path())
+                    # Setup OpenGL Shaders
+                    eg_setupOGL.rsOGL(m.get_materialbuilder())
+                    self.count += 1
+        else:
+            # For Calling Via Right Click Menu
+            if self.nodes.type().category() != hou.objNodeTypeCategory():
+                return
+            if not self.nodes.isSubNetwork():
+                m = eg_createRSMat.RSMat(self.context, self.nodes.name())
+                self.nodes.parm("shop_materialpath").set(m.get_path())
                 # Setup OpenGL Shaders
                 eg_setupOGL.rsOGL(m.get_materialbuilder())
                 self.count += 1

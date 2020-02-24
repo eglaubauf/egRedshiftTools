@@ -29,7 +29,7 @@ if n.type().name() != "geo":
 else:
     import eg_applyRSMat
     reload(eg_applyRSMat)
-    eg_applyRSMat.ApplyRSMat()
+    eg_applyRSMat.ApplyRSMat(n)
 ]]>
                 </scriptCode>
             </scriptItem>
@@ -66,5 +66,164 @@ else:
                 </scriptCode>
             </scriptItem>
         <!--***********************************-->
+            <scriptItem id="Assign OGL Diffuse Texture">
+                <context>
+                    <expression>
+<![CDATA[
+n = kwargs.get("node", None)
+if n.type().name() != "redshift::TextureSampler":
+    return False
+return True ]]>
+                    </expression>
+                </context>
+                <labelExpression>
+<![CDATA[
+n = kwargs.get("node", None)
+if n.type().name() != "redshift::TextureSampler":
+    return "Unavailable in this Context"
+else:
+    return "Setup as OGL Diffuse"
+]]>
+                </labelExpression>
+                <scriptCode>
+<![CDATA[
+n = kwargs.get("node", None)
+if n.type().name() != "redshift::TextureSampler":
+    hou.ui.displayMessage('Please select a TextureSampler to Setup OGL')
+else:
+    import eg_setupOGLRC
+    reload(eg_setupOGLRC)
+    eg_setupOGLRC.rsOGLRC(n, 1)
+]]>
+                </scriptCode>
+            </scriptItem>
+            <!--***********************************-->
+  <scriptItem id="Assign OGL Roughness Texture">
+                <context>
+                    <expression>
+<![CDATA[
+n = kwargs.get("node", None)
+if n.type().name() != "redshift::TextureSampler":
+    return False
+return True ]]>
+                    </expression>
+                </context>
+                <labelExpression>
+<![CDATA[
+n = kwargs.get("node", None)
+if n.type().name() != "redshift::TextureSampler":
+    return "Unavailable in this Context"
+else:
+    return "Setup as OGL Roughness"
+]]>
+                </labelExpression>
+                <scriptCode>
+<![CDATA[
+n = kwargs.get("node", None)
+if n.type().name() != "redshift::TextureSampler":
+    hou.ui.displayMessage('Please select a TextureSampler to Setup OGL')
+else:
+    import eg_setupOGLRC
+    reload(eg_setupOGLRC)
+    eg_setupOGLRC.rsOGLRC(n, 2)
+]]>
+                </scriptCode>
+            </scriptItem>
+            <!--***********************************-->
+  <scriptItem id="Assign OGL Metallic Texture">
+                <context>
+                    <expression>
+<![CDATA[
+n = kwargs.get("node", None)
+if n.type().name() != "redshift::TextureSampler":
+    return False
+return True ]]>
+                    </expression>
+                </context>
+                <labelExpression>
+<![CDATA[
+n = kwargs.get("node", None)
+if n.type().name() != "redshift::TextureSampler":
+    return "Unavailable in this Context"
+else:
+    return "Setup as OGL Metallic"
+]]>
+                </labelExpression>
+                <scriptCode>
+<![CDATA[
+n = kwargs.get("node", None)
+if n.type().name() != "redshift::TextureSampler":
+    hou.ui.displayMessage('Please select a TextureSampler to Setup OGL')
+else:
+    import eg_setupOGLRC
+    reload(eg_setupOGLRC)
+    eg_setupOGLRC.rsOGLRC(n, 3)
+]]>
+                </scriptCode>
+            </scriptItem>
+            <!--***********************************-->
+  <scriptItem id="Assign OGL Emission Texture">
+                <context>
+                    <expression>
+<![CDATA[
+n = kwargs.get("node", None)
+if n.type().name() != "redshift::TextureSampler":
+    return False
+return True ]]>
+                    </expression>
+                </context>
+                <labelExpression>
+<![CDATA[
+n = kwargs.get("node", None)
+if n.type().name() != "redshift::TextureSampler":
+    return "Unavailable in this Context"
+else:
+    return "Setup as OGL Emission"
+]]>
+                </labelExpression>
+                <scriptCode>
+<![CDATA[
+n = kwargs.get("node", None)
+if n.type().name() != "redshift::TextureSampler":
+    hou.ui.displayMessage('Please select a TextureSampler to Setup OGL')
+else:
+    import eg_setupOGLRC
+    reload(eg_setupOGLRC)
+    eg_setupOGLRC.rsOGLRC(n, 4)
+]]>
+                </scriptCode>
+            </scriptItem>
+            <!--***********************************-->
+  <scriptItem id="Assign OGL Normal Texture">
+                <context>
+                    <expression>
+<![CDATA[
+n = kwargs.get("node", None)
+if n.type().name() != "redshift::NormalMap":
+    return False
+return True ]]>
+                    </expression>
+                </context>
+                <labelExpression>
+<![CDATA[
+n = kwargs.get("node", None)
+if n.type().name() != "redshift::NormalMap":
+    return "Unavailable in this Context"
+else:
+    return "Setup as OGL Normal"
+]]>
+                </labelExpression>
+                <scriptCode>
+<![CDATA[
+n = kwargs.get("node", None)
+if n.type().name() != "redshift::NormalMap":
+    hou.ui.displayMessage('Please select a RS-NormalMap to Setup OGL')
+else:
+    import eg_setupOGLRC
+    reload(eg_setupOGLRC)
+    eg_setupOGLRC.rsOGLRC(n, 5)
+]]>
+                </scriptCode>
+            </scriptItem>
     </menu>
 </menuDocument>
