@@ -28,13 +28,14 @@ import eg_setupOGL
 import re
 
 reload(eg_RSMat)
+reload(eg_setupOGL)
 
 
 class Core():
 
     def __init__(self):
         self.nodes = hou.selectedNodes()
-        self.name = self.initName()
+        self.name = self.init_name()
         self.context = hou.node("/mat")
         self.ogl = False
         self.apply = False
@@ -42,13 +43,13 @@ class Core():
         self.material = None
         self.useTex = False
 
-    def setApplyMat(self, enabled):
+    def set_apply_mat(self, enabled):
         if enabled:
             self.apply = True
         else:
             self.apply = False
 
-    def setContext(self, enabled):
+    def set_context(self, enabled):
         if enabled:
             # get Context from caller
             if self.nodes:
@@ -58,22 +59,22 @@ class Core():
         else:
             self.context = hou.node("/mat")
 
-    def setConvert(self, enabled):
+    def set_convert(self, enabled):
         self.convert = enabled
 
-    def setOGL(self, enabled):
+    def set_ogl(self, enabled):
         self.ogl = enabled
 
-    def setUseTex(self, enabled):
+    def set_use_tex(self, enabled):
         self.useTex = enabled
 
-    def initName(self):
+    def init_name(self):
         if self.nodes:
             return self.nodes[0].name()
         else:
             return "RedshiftMaterial"
 
-    def setName(self, text):
+    def set_name(self, text):
         if text == "":
             if self.nodes:
                 self.name = self.nodes[0].name()
@@ -87,14 +88,14 @@ class Core():
             text = re.sub(r"[^a-zA-Z0-9]+", ' ', k)
         self.name = text.replace(" ", "_")
 
-    def getContextName(self):
+    def get_context_name(self):
         return self.context.name()
 
-    def createMaterial(self):
+    def create_material(self):
         # Create RS Material
-        if self.getContextName() != "mat":
+        if self.get_context_name() != "mat":
             # create mat contxt here
-            print("Current Context:     " + self.getContextName())
+            # print("Current Context:     " + self.get_context_name())
             self.context = self.context.createNode("matnet")
 
         # Create Material
@@ -102,20 +103,20 @@ class Core():
 
         # Apply Material to Selection
         if self.apply:
-            self.applyMat()
+            self.apply_mat()
 
         # Create OGL Attributes
         if self.ogl:
-            self.createOGLAttribs()
+            self.create_ogl_attribs()
 
         # Convert Textures to .rs Files
         if self.convert:
-            self.convertTextures()
+            self.convert_textures()
 
-    def createOGLAttribs(self):
+    def create_ogl_attribs(self):
         eg_setupOGL.rsOGL(self.material.get_material_builder())
 
-    def applyMat(self):
+    def apply_mat(self):
         displace = self.material.get_displace()
         if self.nodes:
             for n in self.nodes:
@@ -123,3 +124,6 @@ class Core():
                 if displace:
                     n.parm("RS_objprop_rstess_enable").set(1)
                     n.parm("RS_objprop_displace_enable").set(1)
+
+    def convert_textures(self):
+        pass

@@ -36,11 +36,11 @@ class RSMat():
         self.context = context
         self.name = name
         self.tex = tex
-        self.initVariables()
+        self.init_variables()
 
         self.create_material()
 
-    def initVariables(self):
+    def init_variables(self):
         # Variables used by Class
         self.img = ""
 
@@ -64,7 +64,7 @@ class RSMat():
 
         # Get Files if requested by User
         if self.tex:
-            if not self.getFiles():
+            if not self.get_files():
                 return
 
         # RS Material Builder
@@ -88,24 +88,24 @@ class RSMat():
         #     Layers    #
         #################
         if self.base_color != "":
-            self.createTexture(self.material_builder, self.rs_mat, self.base_color, "Base_Color")
+            self.create_texture(self.material_builder, self.rs_mat, self.base_color, "Base_Color")
             if self.ao != "":
-                self.createTexture(self.material_builder, self.rs_mat, self.ao, "Ambient_Occlusion")
+                self.create_texture(self.material_builder, self.rs_mat, self.ao, "Ambient_Occlusion")
         if self.roughness != "":
-            self.createTexture(self.material_builder, self.rs_mat, self.roughness, "Roughness")
+            self.create_texture(self.material_builder, self.rs_mat, self.roughness, "Roughness")
         if self.metallic != "":
-            self.createTexture(self.material_builder, self.rs_mat, self.metallic, "Metallic")
+            self.create_texture(self.material_builder, self.rs_mat, self.metallic, "Metallic")
         if self.reflect != "":
-            self.createTexture(self.material_builder, self.rs_mat, self.reflect, "Reflectivity")
+            self.create_texture(self.material_builder, self.rs_mat, self.reflect, "Reflectivity")
         if self.normal != "":
-            self.createNormal(self.material_builder, self.rs_mat, self.normal, "Normal")
+            self.create_normal(self.material_builder, self.rs_mat, self.normal, "Normal")
         if self.bump != "":
-            self.createBump(self.material_builder, self.rs_mat, self.bump, "Bump")
+            self.create_bump(self.material_builder, self.rs_mat, self.bump, "Bump")
         if self.displace != "":
-            self.createDisplace(self.material_builder, self.redshift_material, self.displace, "Displacement")
+            self.create_displace(self.material_builder, self.redshift_material, self.displace, "Displacement")
             self.displaceFlag = 1
 
-    def createTexture(self, parent, connector, channel, channelName):
+    def create_texture(self, parent, connector, channel, channelName):
 
         tex = parent.createNode("redshift::TextureSampler")
         tex.setName(channelName, True)
@@ -132,7 +132,7 @@ class RSMat():
             mult.setInput(1, tex, 0)
         return
 
-    def createNormal(self, parent, connector, channel, channelName):
+    def create_normal(self, parent, connector, channel, channelName):
 
         # Create Bump Node
         bump = parent.createNode("redshift::BumpMap")
@@ -148,7 +148,7 @@ class RSMat():
         bump.setInput(0, tex, 0)
         connector.setNamedInput("bump_input", bump, 0)
 
-    def createDisplace(self, parent, connector, channel, channelName):
+    def create_displace(self, parent, connector, channel, channelName):
 
         # Create Displace Node
         displace = parent.createNode("redshift::Displacement")
@@ -163,7 +163,7 @@ class RSMat():
         displace.setInput(0, tex, 0)
         connector.setNamedInput("Displacement", displace, 0)
 
-    def createBump(self, parent, connector, channel, channelName):
+    def create_bump(self, parent, connector, channel, channelName):
 
         # Create Bump Node
         bump = parent.createNode("redshift::BumpMap")
@@ -177,7 +177,7 @@ class RSMat():
         bump.setInput(0, tex, 0)
         connector.setNamedInput("bump_input", bump, 0)
 
-    def getFiles(self):
+    def get_files(self):
 
         # Read Files from User
         files = hou.ui.selectFile(title="Please choose Files to create a Material from", collapse_sequences=False, multiple_select=True, file_type=hou.fileType.Image)

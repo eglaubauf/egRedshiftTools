@@ -46,6 +46,7 @@ matBuildRS.open()
 develop = False
 tmpWindow = None
 
+
 def open(develop=False):
 
     if develop:
@@ -66,72 +67,67 @@ class Controller(QtWidgets.QDialog, view.Ui_RSMatBuilder):
         super(Controller, self).__init__(parent)
 
         self.setupUi(self)
-        self.configureUiStates()
+        self.configure_uistates()
 
         # Set Houdini Style to Window
         self.setProperty("houdiniStyle", True)
         self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
         self.core = core.Core()
-        self.createConnections()
+        self.create_connections()
 
     # linking Buttons to Functions
-    def createConnections(self):
+    def create_connections(self):
 
-        self.cbx_applyMat.toggled.connect(self.setApplyMat)
-        self.cbx_context.toggled.connect(self.setContext)
-        self.cbx_convert.toggled.connect(self.setConvert)
-        self.cbx_setupOGL.toggled.connect(self.setOGL)
-        self.cbx_useTex.toggled.connect(self.useTex)
+        self.cbx_applyMat.toggled.connect(self.set_apply_mat)
+        self.cbx_context.toggled.connect(self.set_context)
+        self.cbx_convert.toggled.connect(self.set_convert)
+        self.cbx_setupOGL.toggled.connect(self.set_ogl)
+        self.cbx_useTex.toggled.connect(self.use_tex)
         self.buttonBox.rejected.connect(self.destroy)
         self.buttonBox.accepted.connect(self.execute)
-        self.fld_username.textChanged.connect(self.setName)
+        self.fld_username.textChanged.connect(self.set_name)
 
-    def configureUiStates(self):
+    def configure_uistates(self):
         self.cbx_convert.setDisabled(True)
 
-    def setApplyMat(self):
+    def set_apply_mat(self):
         if self.cbx_applyMat.isChecked():
-            self.core.setApplyMat(True)
+            self.core.set_apply_mat(True)
         else:
-            self.core.setApplyMat(False)
+            self.core.set_apply_mat(False)
 
-    def setContext(self):
+    def set_context(self):
         if self.cbx_context.isChecked():
-            self.core.setContext(True)
+            self.core.set_context(True)
         else:
-            self.core.setContext(False)
+            self.core.set_context(False)
 
-    def setOGL(self):
+    def set_ogl(self):
         if self.cbx_setupOGL.isChecked():
-            self.core.setOGL(True)
+            self.core.set_ogl(True)
         else:
-            self.core.setOGL(False)
+            self.core.set_ogl(False)
 
-    def setName(self):
-        self.core.setName(self.fld_username.text())
+    def set_name(self):
+        self.core.set_name(self.fld_username.text())
 
-    def useTex(self):
+    def use_tex(self):
         if not self.cbx_useTex.isChecked():
             self.cbx_convert.setDisabled(True)
             self.cbx_convert.setChecked(False)
-            self.setConvert()
+            self.set_convert()
         else:
             self.cbx_convert.setDisabled(False)
 
-        self.core.setUseTex(self.cbx_useTex.isChecked())
+        self.core.set_use_tex(self.cbx_useTex.isChecked())
 
-    def setConvert(self, ):
+    def set_convert(self):
         if self.cbx_convert.isChecked():
-            self.core.setConvert(True)
+            self.core.set_convert(True)
         else:
-            self.core.setConvert(False)
+            self.core.set_convert(False)
 
     # Execute Material Creation
     def execute(self):
-        self.core.createMaterial()
-        # if count == 0:
-        #     hou.ui.displayMessage('An error occured during Material Creation - Please Check Materials/Textures', buttons=('Ok',))
-        #     return
-        # message = str(count) + ' Materials created succesfully'
-        # hou.ui.displayMessage(message, buttons=('Ok',))
+        self.core.create_material()
         self.destroy()

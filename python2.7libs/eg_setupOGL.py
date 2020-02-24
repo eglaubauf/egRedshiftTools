@@ -46,14 +46,14 @@ class rsOGL():
 
             for self.n in self.nodes:
                 if self.n.type().name() == "redshift_vopnet":
-                    self.setupParms()
+                    self.setup_parms()
                 else:
                     hou.ui.displayMessage("Please Execute with RS-Material-Builder Selection.")
         else:
             self.n = material
-            self.setupParms()
+            self.setup_parms()
 
-    def setupParms(self):
+    def setup_parms(self):
 
         # Load UI Template
         Node.rs_OGL_UI(self.n)
@@ -68,24 +68,24 @@ class rsOGL():
         # Link Parms to RS_material
         if self.mat:
             # Diffuse
-            self.linkVParm("ogl_diff", "diffuse_color")
-            self.linkParm("ogl_diff_intensity", "diffuse_weight")
+            self.link_vparm("ogl_diff", "diffuse_color")
+            self.link_parm("ogl_diff_intensity", "diffuse_weight")
 
             # Specular
-            self.linkVParm("ogl_spec", "refl_color")
-            self.linkParm("ogl_rough", "refl_roughness")
-            self.linkParm("ogl_metallic", "refl_metalness")
-            self.linkParm("ogl_ior", "refl_ior")
-            self.linkParm("ogl_spec_intensity", "refl_weight")
-            self.linkParm("ogl_reflect", "refl_weight")
+            self.link_vparm("ogl_spec", "refl_color")
+            self.link_parm("ogl_rough", "refl_roughness")
+            self.link_parm("ogl_metallic", "refl_metalness")
+            self.link_parm("ogl_ior", "refl_ior")
+            self.link_parm("ogl_spec_intensity", "refl_weight")
+            self.link_parm("ogl_reflect", "refl_weight")
             # Emit
-            self.linkVParm("ogl_emit", "emission_color")
-            self.linkParm("ogl_emit_intensity", "emission_weight")
+            self.link_vparm("ogl_emit", "emission_color")
+            self.link_parm("ogl_emit_intensity", "emission_weight")
 
             if self.loadTex:
-                self.linkTextures()
+                self.link_textures()
 
-    def linkTextures(self):
+    def link_textures(self):
         # Link Textures
         inputs = self.mat.inputConnectors()
         for i in inputs:
@@ -111,10 +111,10 @@ class rsOGL():
                         if(i[0].inputIndex() == 49):
                             self.n.parm("ogl_normalmap").set(i[0].inputNode().parm("tex0"), follow_parm_reference=False)
 
-    def linkVParm(self, target, source):
+    def link_vparm(self, target, source):
         self.n.parm(target + "r").set(self.mat.parm(source + "r"), follow_parm_reference=False)
         self.n.parm(target + "g").set(self.mat.parm(source + "g"), follow_parm_reference=False)
         self.n.parm(target + "b").set(self.mat.parm(source + "b"), follow_parm_reference=False)
 
-    def linkParm(self, target, source):
+    def link_parm(self, target, source):
         self.n.parm(target).set(self.mat.parm(source), follow_parm_reference=False)

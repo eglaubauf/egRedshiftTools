@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>211</width>
-    <height>215</height>
+    <width>286</width>
+    <height>229</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>181</width>
+     <width>251</width>
      <height>161</height>
     </rect>
    </property>
@@ -58,6 +58,13 @@
      <widget class="QCheckBox" name="cbx_convert">
       <property name="text">
        <string>Convert Textures to OCIO</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Name (Keep Empty to Use OBJ-Name)</string>
       </property>
      </widget>
     </item>

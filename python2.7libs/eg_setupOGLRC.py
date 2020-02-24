@@ -60,3 +60,5 @@ class rsOGLRC():
             self.n.parm("ogl_emissionmap").set(self.tex.parm("tex0"), follow_parm_reference=False)
         elif self.channel == 5:
             self.n.parm("ogl_normalmap").set(self.tex.parm("tex0"), follow_parm_reference=False)
+
+        hou.ui.displayMessage("Texture linked")
