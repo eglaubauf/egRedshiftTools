@@ -11,6 +11,7 @@
     <memberTool name="camToROP"/>
     <memberTool name="MakeTakes"/>
     <memberTool name="setupOGL"/>
+    <memberTool name="convert OCIO"/>
   </toolshelf>
 
   <tool name="RS MaterialBuild" label="RSMaterialBuild" icon="$EGRS_ICONS/redshift.png">
@@ -50,8 +51,14 @@ eg_takesFromCams.TakesFromCams()]]></script>
   </tool>
 
   <tool name="setupOGL" label="setup OGL" icon="$EGRS_ICONS/redshift.png">
-    <script scriptType="python"><![CDATA[import eg_setupOGL
-reload(eg_setupOGL)
-eg_setupOGL.rsOGL()]]></script>
+    <script scriptType="python"><![CDATA[import materialBuild_RS.eg_setupOGL as ogl
+reload(ogl)
+ogl.run()]]></script>
+  </tool>
+
+  <tool name="convert OCIO" label="convert OCIO" icon="$EGRS_ICONS/redshift.png">
+    <script scriptType="python"><![CDATA[import materialBuild_RS.eg_convert as convert
+reload(convert)
+convert.run()]]></script>
   </tool>
 </shelfDocument>

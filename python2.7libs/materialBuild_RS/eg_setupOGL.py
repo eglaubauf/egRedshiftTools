@@ -58,9 +58,8 @@ class rsOGL():
             if mb.type().name() == "redshift_vopnet":
                 ogl = rsOGL(load_tex)
                 ogl.link(mb)
-            else:
                 count += 1
-        hou.ui.displayMessage("OGL Attributes for " + count + " Nodes created (RSMB Nodes only)")
+        hou.ui.displayMessage("OGL Attributes for " + str(count) + " Nodes created (RSMB Nodes only)")
 
     def link(self, material_builder):
         self.mb = material_builder
@@ -124,9 +123,9 @@ class rsOGL():
                             self.n.parm("ogl_normalmap").set(i[0].inputNode().parm("tex0"), follow_parm_reference=False)
 
     def link_vparm(self, target, source):
-        self.n.parm(target + "r").set(self.mat.parm(source + "r"), follow_parm_reference=False)
-        self.n.parm(target + "g").set(self.mat.parm(source + "g"), follow_parm_reference=False)
-        self.n.parm(target + "b").set(self.mat.parm(source + "b"), follow_parm_reference=False)
+        self.mb.parm(target + "r").set(self.rs_mat.parm(source + "r"), follow_parm_reference=False)
+        self.mb.parm(target + "g").set(self.rs_mat.parm(source + "g"), follow_parm_reference=False)
+        self.mb.parm(target + "b").set(self.rs_mat.parm(source + "b"), follow_parm_reference=False)
 
     def link_parm(self, target, source):
-        self.n.parm(target).set(self.mat.parm(source), follow_parm_reference=False)
+        self.mb.parm(target).set(self.rs_mat.parm(source), follow_parm_reference=False)

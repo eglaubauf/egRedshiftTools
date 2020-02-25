@@ -30,11 +30,70 @@ Web: www.elmar-glaubauf.at
 import hou
 
 
+def run():
+
+    f = hou.ui.selectFile(title="Please choose Files to create a Material from", collapse_sequences=False, multiple_select=True, file_type=hou.fileType.Image)
+    c = convertOCIO()
+    c.set_files(f)
+    c.convert()
+
+
 class convertOCIO():
     """Converts the given Textures to OCIO and returns a dictionary with the filestrings"""
-    def __init__(self, files):
+    def __init__(self, files=None):
 
-        self.files = files
+        if not files:
+            self.files = {
+                "basecolor": None,
+                "roughness": None,
+                "normal": None,
+                "metallic": None,
+                "reflect": None,
+                "height": None,
+                "displace": None,
+                "bump": None,
+                "ao": None
+            }
+            # self.set_files(self.files)
+        else:
+            self.files = files
+
+    def set_files(self, files):
+
+        if files == "":
+            return
+        strings = files.split(";")
+
+        # Get all Entries
+        for i, s in enumerate(strings):
+            # Remove Spaces
+            s = s.rstrip(' ')
+            s = s.lstrip(' ')
+
+            # Get Name of File
+            name = s.split(".")
+            k = name[0].rfind("/")
+            name = name[0][k + 1:]
+
+            # Check which types have been selected. Config as you need
+            if "base_color" in name.lower() or "basecolor" in name.lower():
+                self.files["basecolor"] = s
+            elif "roughness" in name.lower():
+                self.files["roughness"] = s
+            elif "normal" in name.lower():
+                self.files["normal"] = s
+            elif "metallic" in name.lower():
+                self.files["metallic"] = s
+            elif "reflect" in name.lower():
+                self.files["reflect"] = s
+            elif "height" in name.lower():
+                self.files["height"] = s
+            elif "displace" in name.lower():
+                self.files["displace"] = s
+            elif "bump" in name.lower():
+                self.files["bump"] = s
+            elif "ao" in name.lower() or "ambient_occlusion" in name:
+                self.files["ao"] = s
 
     def convert(self):
         if self.ocio_check():
