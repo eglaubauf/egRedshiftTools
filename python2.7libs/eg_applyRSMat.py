@@ -29,28 +29,26 @@ Web: www.elmar-glaubauf.at
 """
 
 import hou
-import eg_createRSMat
-import eg_setupOGL
+import materialBuild_RS.eg_RSMat as rs_mat
+import materialBuild_RS.eg_setupOGL as ogl
 from collections import Iterable
 
-reload(eg_createRSMat)
-reload(eg_setupOGL)
+reload(rs_mat)
+reload(ogl)
+
+
+def run():
+    apply = ApplyRSMat(hou.selectedNodes())
+    apply.create_materials()
 
 
 class ApplyRSMat():
     """Applies an RS MAT to a Selection"""
     def __init__(self, n=None):
+
         self.context = hou.node("/mat")
-
-        # Check if Called Via RightClickMenu
-        if not n:
-            self.nodes = self.get_nodes()
-        else:
-            self.nodes = n
-
+        self.nodes = n
         self.count = 0
-        self.create_materials()
-        self.display_message()
 
     def get_nodes(self):
         """Calls the Selected Nodes"""
@@ -60,10 +58,14 @@ class ApplyRSMat():
         """Iterates over all selected Nodes and applies a Material"""
         # With No Selection just create a Material Node
         if not self.nodes:
-            m = eg_createRSMat.RSMat(self.context)
+            m = rs_mat.RSMat()
+            m.create_material()
+
             # Setup OpenGL Shaders
-            eg_setupOGL.rsOGL(m.get_materialbuilder())
+            o = ogl.rsOGL()
+            o.link(m.get_material_builder())
             self.count += 1
+
         # Check if Called Via RightClickMenu
         if isinstance(self.nodes, Iterable):
             for n in self.nodes:
@@ -71,21 +73,28 @@ class ApplyRSMat():
                 if n.type().category() != hou.objNodeTypeCategory():
                     break
                 if not n.isSubNetwork():
-                    m = eg_createRSMat.RSMat(self.context, n.name())
+                    m = rs_mat.RSMat(self.context, n.name(), None)
+                    m.create_material()
                     n.parm("shop_materialpath").set(m.get_path())
+
                     # Setup OpenGL Shaders
-                    eg_setupOGL.rsOGL(m.get_materialbuilder())
+                    o = ogl.rsOGL()
+                    o.link(m.get_material_builder())
                     self.count += 1
         else:
             # For Calling Via Right Click Menu
             if self.nodes.type().category() != hou.objNodeTypeCategory():
                 return
             if not self.nodes.isSubNetwork():
-                m = eg_createRSMat.RSMat(self.context, self.nodes.name())
+                m = rs_mat.RSMat(self.context, self.nodes.name(), None)
+                m.create_material()
                 self.nodes.parm("shop_materialpath").set(m.get_path())
+
                 # Setup OpenGL Shaders
-                eg_setupOGL.rsOGL(m.get_materialbuilder())
+                o = ogl.rsOGL()
+                o.link(m.get_material_builder())
                 self.count += 1
+        self.display_message()
 
     def display_message(self):
         """Displays the Count of Created Materials to the User"""

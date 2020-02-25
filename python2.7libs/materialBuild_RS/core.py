@@ -175,13 +175,14 @@ class Core():
 
     def create_ogl_attribs(self):
         ogl = eg_setupOGL.rsOGL()
-        ogl.link(self.material.get_material_builder(), True)
+        ogl.link(self.material.get_material_builder())
 
     def apply_mat(self):
         displace = self.material.get_displace()
         if self.nodes:
             for n in self.nodes:
-                n.parm("shop_materialpath").set(self.material.get_path())
-                if displace:
-                    n.parm("RS_objprop_rstess_enable").set(1)
-                    n.parm("RS_objprop_displace_enable").set(1)
+                if n.type().name() == "geo":
+                    n.parm("shop_materialpath").set(self.material.get_path())
+                    if displace:
+                        n.parm("RS_objprop_rstess_enable").set(1)
+                        n.parm("RS_objprop_displace_enable").set(1)

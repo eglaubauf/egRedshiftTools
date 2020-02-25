@@ -35,7 +35,7 @@ matBuildRS.open()]]></script>
   <tool name="Apply Mat" label="Apply Mat" icon="$EGRS_ICONS/redshift.png">
     <script scriptType="python"><![CDATA[import eg_applyRSMat
 reload(eg_applyRSMat)
-eg_applyRSMat.ApplyRSMat()]]></script>
+eg_applyRSMat.run()]]></script>
   </tool>
 
   <tool name="camToROP" label="camToROP" icon="$EGRS_ICONS/redshift.png">

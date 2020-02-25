@@ -98,7 +98,8 @@ class convertOCIO():
     def convert(self):
         if self.ocio_check():
             for key in self.files:
-                self.files[key] = self.convert_file(self.files[key])
+                if self.files[key]:
+                    self.files[key] = self.convert_file(self.files[key])
         else:
             return False
 
@@ -141,7 +142,6 @@ class convertOCIO():
         # Change Filename
         namePos = channel.rfind(".")
         ext = channel[namePos:]
-        print(ext)
         name = channel[:namePos]
         name = name + "_OCIO" + ext
 

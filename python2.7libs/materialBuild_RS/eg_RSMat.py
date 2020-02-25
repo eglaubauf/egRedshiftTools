@@ -34,7 +34,14 @@ class RSMat():
     """Creates an RS-Material in the given context"""
     def __init__(self, context=hou.node("/mat"), name="RedshiftMaterial", files=None):
 
-        self.init_variables()
+        # Variables used by Class
+        self.img = ""
+
+        # RS Material
+        self.material_builder = None
+        self.rs_mat = None
+        self.redshift_material = None
+
         self.files = files
         self.context = context
         self.name = name
@@ -48,7 +55,7 @@ class RSMat():
         return self.material_builder.path()
 
     def get_displace(self):
-        if self.displace != "":
+        if self.files["displace"]:
             return True
         else:
             return False
@@ -56,29 +63,8 @@ class RSMat():
     def get_files(self):
         return self.files
 
-    def init_variables(self):
-        # Variables used by Class
-        self.img = ""
-
-        # RS Material
-        self.material_builder = None
-        self.rs_mat = None
-        self.redshift_material = None
-
-        # MaterialComponents
-        self.base_color = ""
-        self.roughness = ""
-        self.normal = ""
-        self.metallic = ""
-        self.reflect = ""
-        self.displace = ""
-        self.bump = ""
-        self.ao = ""
-
     def create_material(self):
         """Creates an RS-Material in the given context"""
-
-        # Get Files if requested by User
 
         # RS Material Builder
         self.material_builder = self.context.createNode("redshift_vopnet")
@@ -96,12 +82,10 @@ class RSMat():
         self.material_builder.layoutChildren()
 
     def create_layers(self):
-        #################
-        #     Layers    #
-        #################
+
         if self.files["basecolor"]:
             self.create_texture(self.material_builder, self.rs_mat, self.files["basecolor"], "Base_Color")
-            if self.ao != "":
+            if self.files["ao"]:
                 self.create_texture(self.material_builder, self.rs_mat, self.files["ao"], "Ambient_Occlusion")
         if self.files["roughness"]:
             self.create_texture(self.material_builder, self.rs_mat, self.files["roughness"], "Roughness")

@@ -29,6 +29,7 @@ Web: www.elmar-glaubauf.at
 """
 import hou
 import Node
+from collections import Iterable
 
 reload(Node)
 
@@ -39,9 +40,20 @@ def run():
     c.link_mat(True)
 
 
+# Run from RightClick Menu
+def run_rc(mb, channel=None):
+    c = rsOGL()
+    c.link_mat(True, mb)
+
+
+def run_rc_channel(tex, channel=None):
+    c = rsOGL(tex.parent())
+    c.set_ogl_texture(tex, channel)
+
+
 class rsOGL():
 
-    def __init__(self, material_builder=None, load_tex=False):
+    def __init__(self, material_builder=None, load_tex=True):
 
         self.mb = material_builder
         self.rs_mat = None
@@ -50,14 +62,22 @@ class rsOGL():
     def set_material(self, material):
         self.mat = material
 
-    def link_mat(self, load_tex=False):
+    def link_mat(self, load_tex=False, nodes=None):
         # Link multiple from Material Context"
-        nodes = hou.selectedNodes()
+        # Get Selected if started without them
+        if not nodes:
+            nodes = hou.selectedNodes()
         count = 0
-        for mb in nodes:
-            if mb.type().name() == "redshift_vopnet":
+        if isinstance(nodes, Iterable):
+            for mb in nodes:
+                if mb.type().name() == "redshift_vopnet":
+                    ogl = rsOGL(load_tex)
+                    ogl.link(mb)
+                    count += 1
+        else:
+            if nodes.type().name() == "redshift_vopnet":
                 ogl = rsOGL(load_tex)
-                ogl.link(mb)
+                ogl.link(nodes)
                 count += 1
         hou.ui.displayMessage("OGL Attributes for " + str(count) + " Nodes created (RSMB Nodes only)")
 
@@ -98,29 +118,29 @@ class rsOGL():
 
     def link_textures(self):
         # Link Textures
-        inputs = self.mat.inputConnectors()
+        inputs = self.rs_mat.inputConnectors()
         for i in inputs:
             if i:
                 if i[0].outputNode():
                     if i[0].inputNode().type().name() == "redshift::TextureSampler":
                         # Diffuse Texture
                         if(i[0].inputIndex() == 0):
-                            self.n.parm("ogl_tex1").set(i[0].inputNode().parm("tex0"), follow_parm_reference=False)
+                            self.mb.parm("ogl_tex1").set(i[0].inputNode().parm("tex0"), follow_parm_reference=False)
                         # Roughness Texture
                         if(i[0].inputIndex() == 7):
-                            self.n.parm("ogl_roughmap").set(i[0].inputNode().parm("tex0"), follow_parm_reference=False)
-                            self.n.parm("ogl_rough").set(1)
+                            self.mb.parm("ogl_roughmap").set(i[0].inputNode().parm("tex0"), follow_parm_reference=False)
+                            self.mb.parm("ogl_rough").set(1)
                         # Metal Texture
                         if(i[0].inputIndex() == 14):
-                            self.n.parm("ogl_metallicmap").set(i[0].inputNode().parm("tex0"), follow_parm_reference=False)
+                            self.mb.parm("ogl_metallicmap").set(i[0].inputNode().parm("tex0"), follow_parm_reference=False)
                         # Emit Texture
                         if(i[0].inputIndex() == 48):
-                            self.n.parm("ogl_emissionmap").set(i[0].inputNode().parm("tex0"), follow_parm_reference=False)
+                            self.mb.parm("ogl_emissionmap").set(i[0].inputNode().parm("tex0"), follow_parm_reference=False)
 
                     if i[0].inputNode().type().name() == "redshift::NormalMap":
                         # Normal Texture
                         if(i[0].inputIndex() == 49):
-                            self.n.parm("ogl_normalmap").set(i[0].inputNode().parm("tex0"), follow_parm_reference=False)
+                            self.mb.parm("ogl_normalmap").set(i[0].inputNode().parm("tex0"), follow_parm_reference=False)
 
     def link_vparm(self, target, source):
         self.mb.parm(target + "r").set(self.rs_mat.parm(source + "r"), follow_parm_reference=False)
@@ -129,3 +149,19 @@ class rsOGL():
 
     def link_parm(self, target, source):
         self.mb.parm(target).set(self.rs_mat.parm(source), follow_parm_reference=False)
+
+    def set_ogl_texture(self, tex, channel):
+
+        if channel == 1:
+            self.mb.parm("ogl_tex1").set(tex.parm("tex0"), follow_parm_reference=False)
+        elif channel == 2:
+            self.mb.parm("ogl_roughmap").set(tex.parm("tex0"), follow_parm_reference=False)
+            self.mb.parm("ogl_rough").set(1)
+        elif channel == 3:
+            self.mb.parm("ogl_metallicmap").set(tex.parm("tex0"), follow_parm_reference=False)
+        elif channel == 4:
+            self.mb.parm("ogl_emissionmap").set(tex.parm("tex0"), follow_parm_reference=False)
+        elif channel == 5:
+            self.mb.parm("ogl_normalmap").set(tex.parm("tex0"), follow_parm_reference=False)
+
+        hou.ui.displayMessage("Texture linked")
