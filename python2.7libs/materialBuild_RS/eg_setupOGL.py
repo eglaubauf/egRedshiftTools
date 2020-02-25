@@ -69,12 +69,17 @@ class rsOGL():
             nodes = hou.selectedNodes()
         count = 0
         if isinstance(nodes, Iterable):
+
             for mb in nodes:
+                if mb.type().name() == "geo":
+                    mb = mb.parm("shop_materialpath").evalAsNode()
                 if mb.type().name() == "redshift_vopnet":
                     ogl = rsOGL(load_tex)
                     ogl.link(mb)
                     count += 1
         else:
+            if nodes.type().name() == "geo":
+                nodes = nodes.parm("shop_materialpath").evalAsNode()
             if nodes.type().name() == "redshift_vopnet":
                 ogl = rsOGL(load_tex)
                 ogl.link(nodes)

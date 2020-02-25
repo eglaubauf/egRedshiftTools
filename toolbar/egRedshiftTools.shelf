@@ -10,7 +10,7 @@
     <memberTool name="Apply Mat"/>
     <memberTool name="camToROP"/>
     <memberTool name="MakeTakes"/>
-    <memberTool name="setupOGL"/>
+    <memberTool name="setup OGL"/>
     <memberTool name="convert OCIO"/>
   </toolshelf>
 
@@ -50,15 +50,16 @@ reload(eg_takesFromCams)
 eg_takesFromCams.TakesFromCams()]]></script>
   </tool>
 
-  <tool name="setupOGL" label="setup OGL" icon="$EGRS_ICONS/redshift.png">
-    <script scriptType="python"><![CDATA[import materialBuild_RS.eg_setupOGL as ogl
-reload(ogl)
-ogl.run()]]></script>
-  </tool>
-
   <tool name="convert OCIO" label="convert OCIO" icon="$EGRS_ICONS/redshift.png">
+    <helpText><![CDATA[Converts Textures from sRGB/Linear to OCIO AcesCG]]></helpText>
     <script scriptType="python"><![CDATA[import materialBuild_RS.eg_convert as convert
 reload(convert)
 convert.run()]]></script>
+  </tool>
+
+  <tool name="setup OGL" label="setup OGL" icon="$EGRS_ICONS/redshift.png">
+    <script scriptType="python"><![CDATA[import materialBuild_RS.eg_setupOGL as ogl
+reload(ogl)
+ogl.run()]]></script>
   </tool>
 </shelfDocument>

@@ -32,7 +32,7 @@ import hou
 
 def run():
 
-    f = hou.ui.selectFile(title="Please choose Files to create a Material from", collapse_sequences=False, multiple_select=True, file_type=hou.fileType.Image)
+    f = hou.ui.selectFile(title="Please choose Files to create a Material from", collapse_sequences=False, image_chooser=False, multiple_select=True, file_type=hou.fileType.Image)
     c = convertOCIO()
     c.set_files(f)
     c.convert()

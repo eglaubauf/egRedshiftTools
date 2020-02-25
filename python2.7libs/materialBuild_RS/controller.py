@@ -130,7 +130,7 @@ class Controller(QtWidgets.QDialog, view.Ui_RSMatBuilder):
     def apply_user_settings(self):
         # Choose Textures
         if self.core.get_use_tex():
-            f = hou.ui.selectFile(title="Please choose Files to create a Material from", collapse_sequences=False, multiple_select=True, file_type=hou.fileType.Image)
+            f = hou.ui.selectFile(title="Please choose Files to create a Material from", collapse_sequences=False, image_chooser=False, multiple_select=True, file_type=hou.fileType.Image)
             self.core.set_files(f)
 
         # Convert Textures
