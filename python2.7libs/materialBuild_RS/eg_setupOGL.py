@@ -33,40 +33,52 @@ import Node
 reload(Node)
 
 
+# Run from Shelf Tool
+def run():
+    c = rsOGL()
+    c.link_mat(True)
+
+
 class rsOGL():
 
-    def __init__(self, material=None):
+    def __init__(self, material_builder=None, load_tex=False):
 
-        self.loadTex = True
-        self.mat = None
+        self.mb = material_builder
+        self.rs_mat = None
+        self.load_tex = load_tex
 
-        # If exectude in Mat-Context
-        if not material:
-            self.nodes = hou.selectedNodes()
+    def set_material(self, material):
+        self.mat = material
 
-            for self.n in self.nodes:
-                if self.n.type().name() == "redshift_vopnet":
-                    self.setup_parms()
-                else:
-                    hou.ui.displayMessage("Please Execute with RS-Material-Builder Selection.")
-        else:
-            self.n = material
-            self.setup_parms()
+    def link_mat(self, load_tex=False):
+        # Link multiple from Material Context"
+        nodes = hou.selectedNodes()
+        count = 0
+        for mb in nodes:
+            if mb.type().name() == "redshift_vopnet":
+                ogl = rsOGL(load_tex)
+                ogl.link(mb)
+            else:
+                count += 1
+        hou.ui.displayMessage("OGL Attributes for " + count + " Nodes created (RSMB Nodes only)")
+
+    def link(self, material_builder):
+        self.mb = material_builder
+        # Load UI Template
+        Node.rs_OGL_UI(self.mb)
+        self.setup_parms()
 
     def setup_parms(self):
 
-        # Load UI Template
-        Node.rs_OGL_UI(self.n)
-
         # Get Material within new Network
-        for c in self.n.children():
+        for c in self.mb.children():
             if c.type().name() == "redshift_material":
                 for i in c.inputs():
                     if i.type().name() == "redshift::Material":
-                        self.mat = i
+                        self.rs_mat = i
 
         # Link Parms to RS_material
-        if self.mat:
+        if self.rs_mat:
             # Diffuse
             self.link_vparm("ogl_diff", "diffuse_color")
             self.link_parm("ogl_diff_intensity", "diffuse_weight")
@@ -82,7 +94,7 @@ class rsOGL():
             self.link_vparm("ogl_emit", "emission_color")
             self.link_parm("ogl_emit_intensity", "emission_weight")
 
-            if self.loadTex:
+            if self.load_tex:
                 self.link_textures()
 
     def link_textures(self):

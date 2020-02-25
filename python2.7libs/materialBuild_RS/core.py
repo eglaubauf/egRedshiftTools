@@ -25,10 +25,12 @@
 import hou
 import eg_RSMat
 import eg_setupOGL
+import eg_convert
 import re
 
 reload(eg_RSMat)
 reload(eg_setupOGL)
+reload(eg_convert)
 
 
 class Core():
@@ -42,6 +44,58 @@ class Core():
         self.convert = False
         self.material = None
         self.useTex = False
+        self.files = {
+            "basecolor": None,
+            "roughness": None,
+            "normal": None,
+            "metallic": None,
+            "reflect": None,
+            "height": None,
+            "displace": None,
+            "bump": None,
+            "ao": None,
+        }
+
+    # Make Key Value Pairs for Filenames
+    def set_files(self, files):
+
+        if files == "":
+            return
+        strings = files.split(";")
+
+        # Get all Entries
+        for i, s in enumerate(strings):
+            # Remove Spaces
+            s = s.rstrip(' ')
+            s = s.lstrip(' ')
+
+            # Get Name of File
+            name = s.split(".")
+            k = name[0].rfind("/")
+            name = name[0][k + 1:]
+
+            # Check which types have been selected. Config as you need
+            if "base_color" in name.lower() or "basecolor" in name.lower():
+                self.files["basecolor"] = s
+            elif "roughness" in name.lower():
+                self.files["roughness"] = s
+            elif "normal" in name.lower():
+                self.files["normal"] = s
+            elif "metallic" in name.lower():
+                self.files["metallic"] = s
+            elif "reflect" in name.lower():
+                self.files["reflect"] = s
+            elif "height" in name.lower():
+                self.files["height"] = s
+            elif "displace" in name.lower():
+                self.files["displace"] = s
+            elif "bump" in name.lower():
+                self.files["bump"] = s
+            elif "ao" in name.lower() or "ambient_occlusion" in name:
+                self.files["ao"] = s
+
+    def get_files(self):
+        return self.files
 
     def set_apply_mat(self, enabled):
         if enabled:
@@ -62,11 +116,17 @@ class Core():
     def set_convert(self, enabled):
         self.convert = enabled
 
+    def get_convert(self):
+        return self.convert
+
     def set_ogl(self, enabled):
         self.ogl = enabled
 
     def set_use_tex(self, enabled):
         self.useTex = enabled
+
+    def get_use_tex(self):
+        return self.useTex
 
     def init_name(self):
         if self.nodes:
@@ -94,12 +154,11 @@ class Core():
     def create_material(self):
         # Create RS Material
         if self.get_context_name() != "mat":
-            # create mat contxt here
-            # print("Current Context:     " + self.get_context_name())
             self.context = self.context.createNode("matnet")
 
         # Create Material
-        self.material = eg_RSMat.RSMat(self.context, self.name, self.useTex, self.convert)
+        self.material = eg_RSMat.RSMat(self.context, self.name, self.files)
+        self.material.create_material()
 
         # Apply Material to Selection
         if self.apply:
@@ -109,12 +168,14 @@ class Core():
         if self.ogl:
             self.create_ogl_attribs()
 
-        # TODO: Convert Textures to OCIO - OOP
-        # if self.convert:
-        #     self.convert_textures()
+    def convert_tex(self):
+        f = eg_convert.convertOCIO(self.files)
+        f.convert()
+        self.files = f.get_files()
 
     def create_ogl_attribs(self):
-        eg_setupOGL.rsOGL(self.material.get_material_builder())
+        ogl = eg_setupOGL.rsOGL()
+        ogl.link(self.material.get_material_builder(), True)
 
     def apply_mat(self):
         displace = self.material.get_displace()
