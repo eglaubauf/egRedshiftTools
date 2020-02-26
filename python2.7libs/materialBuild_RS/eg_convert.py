@@ -160,12 +160,11 @@ class convertOCIO():
         rop.parm("execute").pressButton()
 
         # Cleanup
-        #img.destroy()
+        img.destroy()
 
         # Return new Filename to Caller
         return name
 
-    # TODO: Implement Linear check
     def check_linear(self, channel):
         """Check if the File is linear"""
         if channel.endswith("hdr"):

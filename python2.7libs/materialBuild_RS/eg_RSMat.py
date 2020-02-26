@@ -86,13 +86,26 @@ class RSMat():
     def create_layers(self):
         """Creates Layers for the MaterialNode"""
         if self.files["basecolor"]:
-            self.create_texture(self.material_builder, self.rs_mat, self.files["basecolor"], "Base_Color")
+            diff = None
+            cc = None
+            if False:  # TODO: User Setting - Create ColorCorrecter
+                cc = self.insertCC(self.material_builder, self.rs_mat, "diffuse_color")
+                diff = self.create_texture(self.material_builder, cc, self.files["basecolor"], "Base_Color")
+            else:
+                diff = self.create_texture(self.material_builder, cc, self.files["basecolor"], "Base_Color")
+            if False:  # TODO: User Setting - Diffuse is Linear
+                diff.parm("tex0_gammaoverride").set(1)
             if self.files["ao"]:
-                self.create_texture(self.material_builder, self.rs_mat, self.files["ao"], "Ambient_Occlusion")
+                if False:  # TODO: User Setting - Create ColorCorrecter
+                    self.create_texture(self.material_builder, self.rs_mat, self.files["ao"], "Ambient_Occlusion", cc)
+                else:
+                    self.create_texture(self.material_builder, self.rs_mat, self.files["ao"], "Ambient_Occlusion")
         if self.files["roughness"]:
             self.create_texture(self.material_builder, self.rs_mat, self.files["roughness"], "Roughness")
         if self.files["metallic"]:
             self.create_texture(self.material_builder, self.rs_mat, self.files["metallic"], "Metallic")
+            self.rs_mat.parm("refl_fresnel_mode").set("2")
+            # self.rs_mat.parm("refl_metalness").set(1)
         if self.files["reflect"]:
             self.create_texture(self.material_builder, self.rs_mat, self.files["reflect"], "Reflectivity")
         if self.files["normal"]:
@@ -103,14 +116,23 @@ class RSMat():
             self.create_displace(self.material_builder, self.redshift_material, self.files["displace"], "Displacement")
             self.displaceFlag = 1
 
-    def create_texture(self, parent, connector, channel, channelName):
+    def insertCC(self, parent, connector, channel):
+        cc = self.material_builder.createNode("redshift::RSColorCorrection")
+        connector.setNamedInput(channel, cc, 0)
+        return cc
+
+    def create_texture(self, parent, connector, channel, channelName, node_before=None):
         """Creates and connects a Texture"""
         tex = parent.createNode("redshift::TextureSampler")
         tex.setName(channelName, True)
         tex.parm("tex0").set(channel)
 
+        if self.is_linear(channel):
+            tex.parm("tex0_gammaoverride").set(1)
+
         if channelName == "Base_Color":
-            connector.setNamedInput("diffuse_color", tex, 0)
+            # insert User Linear
+            connector.setFirstInput(tex, 0)
         elif channelName == "Roughness":
             connector.setNamedInput("refl_roughness", tex, 0)
         elif channelName == "Metallic":
@@ -121,11 +143,14 @@ class RSMat():
             connector.setNamedInput("refl_weight", tex, 0)
         elif channelName == "Ambient_Occlusion":
             mult = parent.createNode("redshift::RSMathMulVector")
-            connector.setNamedInput("diffuse_color", mult, 0)
-            bc = parent.glob("Base_Color")[0]
-            mult.setInput(0, bc, 0)
+            connector.setFirstInput(mult, 0)
+            if node_before:
+                mult.setInput(0, node_before, 0)
+            else:
+                bc = parent.glob("Base_Color")[0]
+                mult.setInput(0, bc, 0)
             mult.setInput(1, tex, 0)
-        return
+        return tex
 
     def create_normal(self, parent, connector, channel, channelName):
         """Creates and connects a NormalMap"""
@@ -171,3 +196,11 @@ class RSMat():
         # Connect Things
         bump.setInput(0, tex, 0)
         connector.setNamedInput("bump_input", bump, 0)
+
+    def is_linear(self, channel):
+        """Check if the File is linear"""
+        if channel.endswith("hdr"):
+            return True
+        if channel.endswith("exr"):
+            return True
+        return False

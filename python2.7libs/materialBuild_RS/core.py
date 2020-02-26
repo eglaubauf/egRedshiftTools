@@ -50,7 +50,6 @@ class Core():
             "normal": None,
             "metallic": None,
             "reflect": None,
-            "height": None,
             "displace": None,
             "bump": None,
             "ao": None,
@@ -85,16 +84,20 @@ class Core():
                 self.files["metallic"] = s
             elif "reflect" in name.lower():
                 self.files["reflect"] = s
-            elif "height" in name.lower():
-                self.files["height"] = s
             elif "displace" in name.lower():
                 self.files["displace"] = s
             elif "bump" in name.lower():
                 self.files["bump"] = s
+            elif "height" in name.lower():
+                if True:  # TODO: User sets Height as Displacement
+                    self.files["displace"] = s
+                else:
+                    self.files["bump"] = s
             elif "ao" in name.lower() or "ambient_occlusion" in name:
                 self.files["ao"] = s
 
     def get_files(self):
+        """Returns a dictionary of Files"""
         return self.files
 
     def set_apply_mat(self, enabled):
