@@ -31,7 +31,7 @@ import hou
 
 
 class RSMat():
-    """Creates an RS-Material in the given context"""
+    """Creates an RS-Material in the given context with a Name"""
     def __init__(self, context=hou.node("/mat"), name="RedshiftMaterial", files=None):
 
         # Variables used by Class
@@ -55,12 +55,14 @@ class RSMat():
         return self.material_builder.path()
 
     def get_displace(self):
+        """Checks if there is a Displacement applied"""
         if self.files["displace"]:
             return True
         else:
             return False
 
     def get_files(self):
+        """Gets the Files withing the Materials as Dict"""
         return self.files
 
     def create_material(self):
@@ -82,7 +84,7 @@ class RSMat():
         self.material_builder.layoutChildren()
 
     def create_layers(self):
-
+        """Creates Layers for the MaterialNode"""
         if self.files["basecolor"]:
             self.create_texture(self.material_builder, self.rs_mat, self.files["basecolor"], "Base_Color")
             if self.files["ao"]:
@@ -102,7 +104,7 @@ class RSMat():
             self.displaceFlag = 1
 
     def create_texture(self, parent, connector, channel, channelName):
-
+        """Creates and connects a Texture"""
         tex = parent.createNode("redshift::TextureSampler")
         tex.setName(channelName, True)
         tex.parm("tex0").set(channel)
@@ -126,7 +128,7 @@ class RSMat():
         return
 
     def create_normal(self, parent, connector, channel, channelName):
-
+        """Creates and connects a NormalMap"""
         # Create Bump Node
         bump = parent.createNode("redshift::BumpMap")
         # Object Space Normal - seems to be a bug in RS for now (Object Space enables Tangent Space Normals)
@@ -142,7 +144,7 @@ class RSMat():
         connector.setNamedInput("bump_input", bump, 0)
 
     def create_displace(self, parent, connector, channel, channelName):
-
+        """Creates and connects a DisplacementMap"""
         # Create Displace Node
         displace = parent.createNode("redshift::Displacement")
 
@@ -157,7 +159,7 @@ class RSMat():
         connector.setNamedInput("Displacement", displace, 0)
 
     def create_bump(self, parent, connector, channel, channelName):
-
+        """Creates and connects a BumpMap"""
         # Create Bump Node
         bump = parent.createNode("redshift::BumpMap")
 

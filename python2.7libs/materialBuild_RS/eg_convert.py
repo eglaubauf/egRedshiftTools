@@ -31,7 +31,7 @@ import hou
 
 
 def run():
-
+    """Run Script from Shelf"""
     f = hou.ui.selectFile(title="Please choose Files to create a Material from", collapse_sequences=False, image_chooser=False, multiple_select=True, file_type=hou.fileType.Image)
     c = convertOCIO()
     c.set_files(f)
@@ -59,7 +59,7 @@ class convertOCIO():
             self.files = files
 
     def set_files(self, files):
-
+        """Set Files to Convert"""
         if files == "":
             return
         strings = files.split(";")
@@ -96,6 +96,7 @@ class convertOCIO():
             #     self.files["ao"] = s
 
     def convert(self):
+        """Converts Files"""
         if self.ocio_check():
             for key in self.files:
                 if self.files[key]:
@@ -104,6 +105,7 @@ class convertOCIO():
             return False
 
     def ocio_check(self):
+        """Check if OCIO is enabled"""
         # Check against OCIO
         if not hou.getenv("OCIO"):
             hou.ui.displayMessage("Please enable OCIO to convert Textures")
@@ -111,7 +113,7 @@ class convertOCIO():
         return True
 
     def convert_file(self, channel):
-
+        """Convert a single File via COPs"""
         linear = self.check_linear(channel)
 
         # Get Reference to COPs Context
@@ -165,6 +167,7 @@ class convertOCIO():
 
     # TODO: Implement Linear check
     def check_linear(self, channel):
+        """Check if the File is linear"""
         if channel.endswith("hdr"):
             return True
         if channel.endswith("exr"):
@@ -172,8 +175,10 @@ class convertOCIO():
         return False
 
     def get_files(self):
+        """Get File Dictionary"""
         return self.files
 
     def print_files(self):
+        """Print File Dictionary"""
         for key in self.files:
             print(self.files[key])

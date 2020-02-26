@@ -98,12 +98,11 @@ class Core():
         return self.files
 
     def set_apply_mat(self, enabled):
-        if enabled:
-            self.apply = True
-        else:
-            self.apply = False
+        """Sets if Material gets applied """
+        self.apply = enabled
 
     def set_context(self, enabled):
+        """Sets if Material is created within the current context"""
         if enabled:
             # get Context from caller
             if self.nodes:
@@ -114,27 +113,33 @@ class Core():
             self.context = hou.node("/mat")
 
     def set_convert(self, enabled):
+        """Sets if Textures will be converted"""
         self.convert = enabled
 
     def get_convert(self):
         return self.convert
 
     def set_ogl(self, enabled):
+        """Sets if OGL Parameters will be created"""
         self.ogl = enabled
 
     def set_use_tex(self, enabled):
+        """Sets if Textures will be loaded"""
         self.useTex = enabled
 
     def get_use_tex(self):
+        """Gets if Textures will be loaded"""
         return self.useTex
 
     def init_name(self):
+        """Set the Initial Name for the Material"""
         if self.nodes:
             return self.nodes[0].name()
         else:
             return "RedshiftMaterial"
 
     def set_name(self, text):
+        """Set the Name for the Material"""
         if text == "":
             if self.nodes:
                 self.name = self.nodes[0].name()
@@ -149,9 +154,11 @@ class Core():
         self.name = text.replace(" ", "_")
 
     def get_context_name(self):
+        """Get the current context"""
         return self.context.name()
 
     def create_material(self):
+        """Creates a RS-Material with the context given"""
         # Create RS Material
         if self.get_context_name() != "mat":
             self.context = self.context.createNode("matnet")
@@ -169,6 +176,7 @@ class Core():
             self.create_ogl_attribs()
 
     def convert_tex(self):
+        """Converts Textures to OCIO"""
         f = eg_convert.convertOCIO(self.files)
         f.convert()
         self.files = f.get_files()
