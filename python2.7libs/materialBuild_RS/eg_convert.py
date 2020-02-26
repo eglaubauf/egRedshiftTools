@@ -78,22 +78,22 @@ class convertOCIO():
             # Check which types have been selected. Config as you need
             if "base_color" in name.lower() or "basecolor" in name.lower():
                 self.files["basecolor"] = s
-            elif "roughness" in name.lower():
-                self.files["roughness"] = s
-            elif "normal" in name.lower():
-                self.files["normal"] = s
-            elif "metallic" in name.lower():
-                self.files["metallic"] = s
+            # elif "roughness" in name.lower():
+            #     self.files["roughness"] = s
+            # elif "normal" in name.lower():
+            #     self.files["normal"] = s
+            # elif "metallic" in name.lower():
+            #     self.files["metallic"] = s
             elif "reflect" in name.lower():
                 self.files["reflect"] = s
-            elif "height" in name.lower():
-                self.files["height"] = s
-            elif "displace" in name.lower():
-                self.files["displace"] = s
-            elif "bump" in name.lower():
-                self.files["bump"] = s
-            elif "ao" in name.lower() or "ambient_occlusion" in name:
-                self.files["ao"] = s
+            # elif "height" in name.lower():
+            #     self.files["height"] = s
+            # elif "displace" in name.lower():
+            #     self.files["displace"] = s
+            # elif "bump" in name.lower():
+            #     self.files["bump"] = s
+            # elif "ao" in name.lower() or "ambient_occlusion" in name:
+            #     self.files["ao"] = s
 
     def convert(self):
         if self.ocio_check():
@@ -121,20 +121,28 @@ class convertOCIO():
         # Create ReadNode
         read = img.createNode("file")
 
+        # img.parm("linearize").set(0)
         # Set ColorSpace
-        if linear:
-            read.parm("colorspace").set("linear")
-        else:
-            read.parm("colorspace").set("srgb")
+        read.parm("linearize").set(0)
+        read.parm("overridedepth").set(2)
+        read.parm("depth").set(3)
+        # else:
+        #     read.parm("colorspace").set("srgb")
 
         # Create OCIO Node
         ocio = img.createNode("eg_ocio_convert")
         ocio.setInput(0, read, 0)
 
+        if linear:
+            ocio.parm("fromspace").set("Utility - Linear - sRGB")
+        else:
+            ocio.parm("fromspace").set("Utility - sRGB - Texture")
+
         # Create RopNode
         rop = img.createNode("rop_comp")
         rop.setInput(0, ocio, 0)
         rop.parm("trange").set(0)
+        rop.parm("convertcolorspace").set(0)
 
         # Convert Stuff
         read.parm("filename1").set(channel)
@@ -150,14 +158,18 @@ class convertOCIO():
         rop.parm("execute").pressButton()
 
         # Cleanup
-        img.destroy()
+        #img.destroy()
 
         # Return new Filename to Caller
         return name
 
     # TODO: Implement Linear check
     def check_linear(self, channel):
-        return True
+        if channel.endswith("hdr"):
+            return True
+        if channel.endswith("exr"):
+            return True
+        return False
 
     def get_files(self):
         return self.files
