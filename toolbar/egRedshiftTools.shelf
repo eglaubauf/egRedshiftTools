@@ -27,37 +27,54 @@ eg_applyRSMat.ApplyRSMat()]]></script>
   </tool>
 
   <tool name="matBuild" label="matBuild" icon="$EGRS_ICONS/redshift.png">
+    <helpText><![CDATA[= MaterialBuilder =
+
+"""Creates a RS-Materialbuilder with a Material and Texture Network within it. Loads Textures and OpenGL-Shaders if needed"""]]></helpText>
     <script scriptType="python"><![CDATA[import materialBuild_RS.controller as matBuildRS
 reload(matBuildRS)
 matBuildRS.open()]]></script>
   </tool>
 
   <tool name="Apply Mat" label="Apply Mat" icon="$EGRS_ICONS/redshift.png">
+    <helpText><![CDATA[= Apply Material =
+
+"""Creates a RS-Materialbuilder with a Material for the current Selection. Also creates OpenGL Shaders. If nothing is selected blank Material is created"""]]></helpText>
     <script scriptType="python"><![CDATA[import eg_applyRSMat
 reload(eg_applyRSMat)
 eg_applyRSMat.run()]]></script>
   </tool>
 
   <tool name="camToROP" label="camToROP" icon="$EGRS_ICONS/redshift.png">
+    <helpText><![CDATA[= CamToRop =
+
+"""This Script sets the current Viewport Camera to a Redshift Rop. Creates a Camera if there is none"""]]></helpText>
     <script scriptType="python"><![CDATA[import eg_camToROP
 reload(eg_camToROP)
 eg_camToROP.run()]]></script>
   </tool>
 
   <tool name="MakeTakes" label="MakeTakes" icon="$EGRS_ICONS/redshift.png">
+    <helpText><![CDATA[= Create Takes from Selection =
+
+"""Creates takes from the Selected Cameras. Also creates a ROP if there is none"""]]></helpText>
     <script scriptType="python"><![CDATA[import eg_takesFromCams
 reload(eg_takesFromCams)
 eg_takesFromCams.TakesFromCams()]]></script>
   </tool>
 
   <tool name="convert OCIO" label="convert OCIO" icon="$EGRS_ICONS/redshift.png">
-    <helpText><![CDATA[Converts Textures from sRGB/Linear to OCIO AcesCG]]></helpText>
+    <helpText><![CDATA[= Convert Textures to OCIO =
+
+"""Provides a File Dialog and enables the User to convert a set of Textures"""]]></helpText>
     <script scriptType="python"><![CDATA[import materialBuild_RS.eg_convert as convert
 reload(convert)
 convert.run()]]></script>
   </tool>
 
   <tool name="setup OGL" label="setup OGL" icon="$EGRS_ICONS/redshift.png">
+    <helpText><![CDATA[= Setup OpenGL Shaders =
+
+"""Sets Up OpenGL Shaders for the current selection"""]]></helpText>
     <script scriptType="python"><![CDATA[import materialBuild_RS.eg_setupOGL as ogl
 reload(ogl)
 ogl.run()]]></script>
