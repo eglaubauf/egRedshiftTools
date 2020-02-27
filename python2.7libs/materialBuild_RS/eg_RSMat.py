@@ -46,6 +46,9 @@ class RSMat():
         self.context = context
         self.name = name
 
+        self.cc_diffuse = False
+        self.diff_linear = False
+
     def get_material_builder(self):
         """Returns the MaterialBuilder"""
         return self.material_builder
@@ -65,8 +68,10 @@ class RSMat():
         """Gets the Files withing the Materials as Dict"""
         return self.files
 
-    def create_material(self):
+    def create_material(self, cc_diffuse=False, diff_linear=False):
         """Creates an RS-Material in the given context"""
+        self.cc_diffuse = cc_diffuse
+        self.diff_linear = diff_linear
 
         # RS Material Builder
         self.material_builder = self.context.createNode("redshift_vopnet")
@@ -88,15 +93,15 @@ class RSMat():
         if self.files["basecolor"]:
             diff = None
             cc = None
-            if False:  # TODO: User Setting - Create ColorCorrecter
+            if self.cc_diffuse:  # User Setting - Create ColorCorrecter
                 cc = self.insertCC(self.material_builder, self.rs_mat, "diffuse_color")
                 diff = self.create_texture(self.material_builder, cc, self.files["basecolor"], "Base_Color")
             else:
-                diff = self.create_texture(self.material_builder, cc, self.files["basecolor"], "Base_Color")
-            if False:  # TODO: User Setting - Diffuse is Linear
+                diff = self.create_texture(self.material_builder, self.rs_mat, self.files["basecolor"], "Base_Color")
+            if self.diff_linear:  # User Setting - Diffuse is Linear
                 diff.parm("tex0_gammaoverride").set(1)
             if self.files["ao"]:
-                if False:  # TODO: User Setting - Create ColorCorrecter
+                if self.cc_diffuse:  # User Setting - Create ColorCorrecter
                     self.create_texture(self.material_builder, self.rs_mat, self.files["ao"], "Ambient_Occlusion", cc)
                 else:
                     self.create_texture(self.material_builder, self.rs_mat, self.files["ao"], "Ambient_Occlusion")

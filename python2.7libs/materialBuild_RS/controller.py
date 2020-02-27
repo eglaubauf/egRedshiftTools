@@ -83,12 +83,21 @@ class Controller(QtWidgets.QDialog, view.Ui_RSMatBuilder):
         self.cbx_convert.toggled.connect(self.set_convert)
         self.cbx_setupOGL.toggled.connect(self.set_ogl)
         self.cbx_useTex.toggled.connect(self.use_tex)
+
+        self.cbx_heightDisp.toggled.connect(self.set_height_displace)
+        self.cbx_ccDiffuse.toggled.connect(self.set_cc_diffuse)
+        self.cbx_diffLinear.toggled.connect(self.set_diff_linear)
+        self.fld_username.textChanged.connect(self.set_name)
+
         self.buttonBox.rejected.connect(self.destroy)
         self.buttonBox.accepted.connect(self.execute)
-        self.fld_username.textChanged.connect(self.set_name)
 
     def configure_uistates(self):
         self.cbx_convert.setDisabled(True)
+        self.cbx_heightDisp.setDisabled(True)
+        self.cbx_ccDiffuse.setDisabled(True)
+        self.cbx_diffLinear .setDisabled(True)
+
 
     def set_apply_mat(self):
         if self.cbx_applyMat.isChecked():
@@ -113,11 +122,29 @@ class Controller(QtWidgets.QDialog, view.Ui_RSMatBuilder):
 
     def use_tex(self):
         if not self.cbx_useTex.isChecked():
+            # Disable Texture Options
             self.cbx_convert.setDisabled(True)
             self.cbx_convert.setChecked(False)
             self.set_convert()
+
+            self.cbx_heightDisp.setDisabled(True)
+            self.cbx_heightDisp.setChecked(False)
+            self.set_height_displace()
+
+            self.cbx_ccDiffuse.setDisabled(True)
+            self.cbx_ccDiffuse.setChecked(False)
+            self.set_cc_diffuse()
+
+            self.cbx_diffLinear.setDisabled(True)
+            self.cbx_diffLinear.setChecked(False)
+            self.set_diff_linear()
+
         else:
             self.cbx_convert.setDisabled(False)
+            self.cbx_heightDisp.setDisabled(False)
+            self.cbx_ccDiffuse.setDisabled(False)
+            self.cbx_diffLinear.setDisabled(False)
+
 
         self.core.set_use_tex(self.cbx_useTex.isChecked())
 
@@ -126,6 +153,24 @@ class Controller(QtWidgets.QDialog, view.Ui_RSMatBuilder):
             self.core.set_convert(True)
         else:
             self.core.set_convert(False)
+
+    def set_height_displace(self):
+        if self.cbx_heightDisp.isChecked():
+            self.core.set_height_displace(True)
+        else:
+            self.core.set_height_displace(False)
+
+    def set_cc_diffuse(self):
+        if self.cbx_ccDiffuse.isChecked():
+            self.core.set_cc_diffuse(True)
+        else:
+            self.core.set_cc_diffuse(False)
+
+    def set_diff_linear(self):
+        if self.cbx_diffLinear.isChecked():
+            self.core.set_diff_linear(True)
+        else:
+            self.core.set_diff_linear(False)
 
     def apply_user_settings(self):
         # Choose Textures

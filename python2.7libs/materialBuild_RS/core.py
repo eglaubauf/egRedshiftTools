@@ -42,6 +42,9 @@ class Core():
         self.ogl = False
         self.apply = False
         self.convert = False
+        self.cc_diffuse = False
+        self.diff_linear = False
+        self.height_displace = False
         self.material = None
         self.useTex = False
         self.files = {
@@ -89,7 +92,7 @@ class Core():
             elif "bump" in name.lower():
                 self.files["bump"] = s
             elif "height" in name.lower():
-                if True:  # TODO: User sets Height as Displacement
+                if self.height_displace:  # User sets Height as Displacement
                     self.files["displace"] = s
                 else:
                     self.files["bump"] = s
@@ -130,6 +133,18 @@ class Core():
         """Sets if Textures will be loaded"""
         self.useTex = enabled
 
+    def set_height_displace(self, enabled):
+        """Sets if Height will be loaded as Displacement"""
+        self.height_displace = enabled
+
+    def set_diff_linear(self, enabled):
+        """Sets if Diffuse Textures will be loaded as Linear"""
+        self.diff_linear = enabled
+
+    def set_cc_diffuse(self, enabled):
+        """Sets if Diffuse gets a ColorCorrection Node applied"""
+        self.cc_diffuse = enabled
+
     def get_use_tex(self):
         """Gets if Textures will be loaded"""
         return self.useTex
@@ -168,7 +183,7 @@ class Core():
 
         # Create Material
         self.material = eg_RSMat.RSMat(self.context, self.name, self.files)
-        self.material.create_material()
+        self.material.create_material(self.cc_diffuse, self.diff_linear)
 
         # Apply Material to Selection
         if self.apply:
