@@ -37,14 +37,14 @@ def run():  # our cam object
 
     if pane_tab:
         cam = pane_tab.curViewport().camera()
-    if not cam:
+        set_cam_for_render(cam)
+    elif not cam:
         cam = create_cam()
         pane_tab.curViewport().saveViewToCamera(cam)
         pane_tab.curViewport().setCamera(cam)
         set_cam_for_render(cam)
     else:
         hou.ui.displayMessage("No Viewport found")
-        # Check if this a PaneTab of Type SceneViewer
 
 
 def set_cam_for_render(cam):
@@ -55,12 +55,31 @@ def set_cam_for_render(cam):
     for o in out.children():
         if o.type().name() == "Redshift_ROP":
             o.parm("RS_renderCamera").set(cam.path())
+            if o.parm("RS_aovGetFromNode").evalAsString() == "":
+                set_aov(o)
             return
 
     rop = out.createNode("Redshift_ROP")
     rop.parm("RS_renderCamera").set(cam.path())
+    set_aov(rop)
+
+    out.layoutChildren()
 
     return
+
+
+def set_aov(rop):
+
+    out = hou.node("/out")
+    for aov in out.children():
+        if aov.type().name() == "Redshift_AOVs":
+            rel_path = aov.relativePathTo(rop)
+            rop.parm("RS_aovGetFromNode").set(rel_path)
+            return
+
+    aov = out.createNode("Redshift_AOVs")
+    rel_path = aov.relativePathTo(rop)
+    rop.parm("RS_aovGetFromNode").set(rel_path)
 
 
 def create_cam():
