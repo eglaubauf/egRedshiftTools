@@ -22,7 +22,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-This script will create a Redshift Node Network based on a file selection
+This Script holds the UI for OGL Shaders for a RS-Materialbuilder
 
 Twitter: @eglaubauf
 Web: www.elmar-glaubauf.at
