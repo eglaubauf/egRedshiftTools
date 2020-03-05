@@ -80,4 +80,10 @@ convert.run()]]></script>
 reload(ogl)
 ogl.run()]]></script>
   </tool>
+
+  <tool name="clear OGL" label="clear OGL" icon="$EGRS_ICONS/redshift.png">
+    <script scriptType="python"><![CDATA[import eg_clearOGL
+reload(eg_clearOGL)
+eg_clearOGL.run()]]></script>
+  </tool>
 </shelfDocument>
