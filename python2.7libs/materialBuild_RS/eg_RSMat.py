@@ -164,14 +164,7 @@ class RSMat():
         # Object Space Normal - seems to be a bug in RS for now (Object Space enables Tangent Space Normals)
         normal.parm("tex0").set(channel)
 
-        # Create Tex
-        #tex = parent.createNode("redshift::TextureSampler")
-        #tex.setName(channelName, True)
-        #tex.parm("tex0").set(channel)
-        #tex.parm("tex0_gammaoverride").set('1')
-
         # Connect Things
-        #normal.setInput(0, tex, 0)
         connector.setNamedInput("bump_input", normal, 0)
 
     def create_displace(self, parent, connector, channel, channelName):

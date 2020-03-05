@@ -12,6 +12,7 @@
     <memberTool name="MakeTakes"/>
     <memberTool name="setup OGL"/>
     <memberTool name="convert OCIO"/>
+    <memberTool name="clear OGL"/>
   </toolshelf>
 
   <tool name="RS MaterialBuild" label="RSMaterialBuild" icon="$EGRS_ICONS/redshift.png">
