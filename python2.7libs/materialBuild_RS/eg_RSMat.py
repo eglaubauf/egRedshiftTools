@@ -160,18 +160,19 @@ class RSMat():
     def create_normal(self, parent, connector, channel, channelName):
         """Creates and connects a NormalMap"""
         # Create Bump Node
-        bump = parent.createNode("redshift::BumpMap")
+        normal = parent.createNode("redshift::NormalMap")
         # Object Space Normal - seems to be a bug in RS for now (Object Space enables Tangent Space Normals)
-        bump.parm("inputType").set('2')
+        normal.parm("tex0").set(channel)
+
         # Create Tex
-        tex = parent.createNode("redshift::TextureSampler")
-        tex.setName(channelName, True)
-        tex.parm("tex0").set(channel)
-        tex.parm("tex0_gammaoverride").set('1')
+        #tex = parent.createNode("redshift::TextureSampler")
+        #tex.setName(channelName, True)
+        #tex.parm("tex0").set(channel)
+        #tex.parm("tex0_gammaoverride").set('1')
 
         # Connect Things
-        bump.setInput(0, tex, 0)
-        connector.setNamedInput("bump_input", bump, 0)
+        #normal.setInput(0, tex, 0)
+        connector.setNamedInput("bump_input", normal, 0)
 
     def create_displace(self, parent, connector, channel, channelName):
         """Creates and connects a DisplacementMap"""
