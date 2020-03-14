@@ -80,7 +80,7 @@ class RSMat():
 
         # RS Material
         self.redshift_material = self.material_builder.children()[0]
-        self.rs_mat = self.material_builder.createNode('redshift::Material')
+        self.rs_mat = self.material_builder.glob("Material*")[0] # self.material_builder.createNode('redshift::Material')
         self.redshift_material.setInput(0, self.rs_mat, 0)
 
         if self.files:
