@@ -28,10 +28,8 @@ A collection of scripts for Redshift in SideFx Houdini
 
 - easy Usage via Right-Click Menus and provided shelf
 - easy Install via Packages Workflow - see more below
-- Tested on Houdini 18.0.348 - No 391 for now since Redshift misses compatibility at the moment
+- Tested on Houdini 18.0.391 & Redshift 3.0.17
 - Tested on Windows 10 and Linux (Ubuntu 19.10)
-- Open Source - Feel free to branch or fork
--
 
 ### Installation:
 
