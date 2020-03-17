@@ -37,8 +37,11 @@ reload(rs_mat)
 reload(ogl)
 
 
-def run():
-    apply = ApplyRSMat(hou.selectedNodes())
+def run(n=None):
+    if n is None:
+        apply = ApplyRSMat(hou.selectedNodes())
+    else:
+        apply = ApplyRSMat(n)
     apply.create_materials()
 
 
