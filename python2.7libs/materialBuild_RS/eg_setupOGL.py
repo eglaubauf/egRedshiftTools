@@ -71,10 +71,12 @@ class rsOGL():
             nodes = hou.selectedNodes()
         count = 0
         if isinstance(nodes, Iterable):
-
             for mb in nodes:
                 if mb.type().name() == "geo":
                     mb = mb.parm("shop_materialpath").evalAsNode()
+                    if not mb:
+                        hou.ui.displayMessage("Please apply a Material first")
+                        return
                 if mb.type().name() == "redshift_vopnet":
                     ogl = rsOGL(load_tex)
                     ogl.link(mb)
