@@ -54,8 +54,15 @@ class ClearOGL():
         for mb in self.nodes:
             if mb.type().name() == "redshift_vopnet":
                 parms = mb.parms()
-                for p in parms:
-                    p.deleteAllKeyframes()
+                for p in reversed(parms):
+                    if p is not None:
+                        p.deleteAllKeyframes()
+                    pt = p.tuple()
+                    if pt:
+                        pt.revertToAndRestorePermanentDefaults()
+
+
+
 
     def display_message(self):
         """Displays the Count of Created Materials to the User"""
