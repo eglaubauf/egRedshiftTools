@@ -134,23 +134,27 @@ class rsOGL():
                 if i[0].outputNode():
                     if i[0].inputNode().type().name() == "redshift::TextureSampler":
                         # Diffuse Texture
-                        if(i[0].inputIndex() == 0):
-                            #self.mb.parm("ogl_diff").set(1)
+                        if i[0].inputIndex() == 0:
+                            # self.mb.parm("ogl_diff").set(1)
                             # Set Diffuse to 1 to get proper Diffuse Tex Color
                             self.mb.parm("ogl_diffr").set(1, follow_parm_reference=False)
                             self.mb.parm("ogl_diffg").set(1, follow_parm_reference=False)
                             self.mb.parm("ogl_diffb").set(1, follow_parm_reference=False)
                             self.mb.parm("ogl_tex1").set(i[0].inputNode().parm("tex0"), follow_parm_reference=False)
                         # Roughness Texture
-                        if(i[0].inputIndex() == 7):
+                        if i[0].inputIndex() == 7:
                             self.mb.parm("ogl_roughmap").set(i[0].inputNode().parm("tex0"), follow_parm_reference=False)
                             self.mb.parm("ogl_rough").set(1)
                         # Metal Texture
-                        if(i[0].inputIndex() == 14):
+                        if i[0].inputIndex() == 14:
                             self.mb.parm("ogl_metallicmap").set(i[0].inputNode().parm("tex0"), follow_parm_reference=False)
                         # Emit Texture
-                        if(i[0].inputIndex() == 48):
+                        if i[0].inputIndex() == 48:
                             self.mb.parm("ogl_emissionmap").set(i[0].inputNode().parm("tex0"), follow_parm_reference=False)
+                    # Apply Diffuse Texture if not directly linked to Material Input
+                    elif i[0].inputIndex() == 0:
+                        if self.mb.glob("Base_Color")[0].parm("tex0") is not None:
+                            self.mb.parm("ogl_tex1").set(self.mb.glob("Base_Color")[0].parm("tex0"), follow_parm_reference=False)
 
                     if i[0].inputNode().type().name() == "redshift::NormalMap":
                         # Normal Texture
