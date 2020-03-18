@@ -1,3 +1,4 @@
+import hou
 #Set DefaultShape & Color Redshift Lights
 hou.nodeType(hou.objNodeTypeCategory(), "rslight").setDefaultColor(hou.Color(1,1,0))
 hou.nodeType(hou.objNodeTypeCategory(), "rslight").setDefaultShape('light')
