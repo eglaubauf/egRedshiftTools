@@ -151,10 +151,26 @@ class rsOGL():
                         # Emit Texture
                         if i[0].inputIndex() == 48:
                             self.mb.parm("ogl_emissionmap").set(i[0].inputNode().parm("tex0"), follow_parm_reference=False)
-                    # Apply Diffuse Texture if not directly linked to Material Input
-                    elif i[0].inputIndex() == 0:
-                        if self.mb.glob("Base_Color")[0].parm("tex0") is not None:
-                            self.mb.parm("ogl_tex1").set(self.mb.glob("Base_Color")[0].parm("tex0"), follow_parm_reference=False)
+
+                    # If Texture is Megascans
+                    elif i[0].inputNode().type().name() == "quixel_redshift_texture::1.0":
+                        # Get MS Texture
+                        # Diffuse Texture
+                        if i[0].inputIndex() == 0:
+                            self.mb.parm("ogl_diffr").set(1, follow_parm_reference=False)
+                            self.mb.parm("ogl_diffg").set(1, follow_parm_reference=False)
+                            self.mb.parm("ogl_diffb").set(1, follow_parm_reference=False)
+                            self.mb.parm("ogl_tex1").set(i[0].inputNode().parm("ms_albedo"), follow_parm_reference=False)
+                        # Roughness Texture
+                        if i[0].inputIndex() == 7:
+                            self.mb.parm("ogl_roughmap").set(i[0].inputNode().parm("ms_rough"), follow_parm_reference=False)
+                            self.mb.parm("ogl_rough").set(1)
+                        # Metal Texture
+                        if i[0].inputIndex() == 14:
+                            self.mb.parm("ogl_metallicmap").set(i[0].inputNode().parm("ms_metal"), follow_parm_reference=False)
+                        # Normal Texture
+                        if(i[0].inputIndex() == 49):
+                            self.mb.parm("ogl_normalmap").set(i[0].inputNode().parm("ms_normal"), follow_parm_reference=False)
 
                     if i[0].inputNode().type().name() == "redshift::NormalMap":
                         # Normal Texture
