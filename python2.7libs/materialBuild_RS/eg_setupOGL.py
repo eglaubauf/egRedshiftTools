@@ -171,11 +171,21 @@ class rsOGL():
                         # Normal Texture
                         if(i[0].inputIndex() == 49):
                             self.mb.parm("ogl_normalmap").set(i[0].inputNode().parm("ms_normal"), follow_parm_reference=False)
+                    # Sprite
+                    elif i[0].inputNode().type().name() == "redshift::Sprite":
+                        # Diffuse Texture
+                        if i[0].inputIndex() == 0:
+                            self.mb.parm("ogl_diffr").set(1, follow_parm_reference=False)
+                            self.mb.parm("ogl_diffg").set(1, follow_parm_reference=False)
+                            self.mb.parm("ogl_diffb").set(1, follow_parm_reference=False)
+                            self.mb.parm("ogl_tex1").set(i[0].inputNode().parm("tex0"), follow_parm_reference=False)
 
                     if i[0].inputNode().type().name() == "redshift::NormalMap":
                         # Normal Texture
                         if(i[0].inputIndex() == 49):
                             self.mb.parm("ogl_normalmap").set(i[0].inputNode().parm("tex0"), follow_parm_reference=False)
+
+
 
     def link_vparm(self, target, source):
         """Link a single Vector Parm"""
