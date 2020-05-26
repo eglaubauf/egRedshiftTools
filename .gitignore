@@ -125,3 +125,5 @@ dmypy.json
 
 .vscode/settings.json
 .code-workspace
+python2.7libs/materialConvert_RS/eg_convert.py
+python2.7libs/materialConvert_RS/.vscode/settings.json
