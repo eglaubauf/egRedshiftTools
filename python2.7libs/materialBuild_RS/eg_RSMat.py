@@ -53,6 +53,9 @@ class RSMat():
         """Returns the MaterialBuilder"""
         return self.material_builder
 
+    def get_rsMat(self):
+        return self.rs_mat
+
     def get_path(self):
         """Returns the Path to the MaterialBuilder"""
         return self.material_builder.path()
