@@ -28,7 +28,6 @@ if n.type().name() != "geo":
     hou.ui.displayMessage('Please select OBJ-Nodes to create Materials')
 else:
     import eg_applyRSMat
-    reload(eg_applyRSMat)
     eg_applyRSMat.run(n)
 ]]>
                 </scriptCode>
@@ -60,7 +59,6 @@ if n.type().name() != "redshift_vopnet":
     hou.ui.displayMessage('Please select a RSMB to Setup OGL')
 else:
     import materialBuild_RS.eg_setupOGL as ogl
-    reload(ogl)
     ogl.run_rc(n)
 ]]>
                 </scriptCode>
@@ -92,7 +90,6 @@ if n.type().name() != "redshift::TextureSampler":
     hou.ui.displayMessage('Please select a TextureSampler to Setup OGL')
 else:
     import materialBuild_RS.eg_setupOGL as ogl
-    reload(ogl)
     ogl.run_rc_channel(n, 1)
 ]]>
                 </scriptCode>
@@ -124,7 +121,6 @@ if n.type().name() != "redshift::TextureSampler":
     hou.ui.displayMessage('Please select a TextureSampler to Setup OGL')
 else:
     import materialBuild_RS.eg_setupOGL as ogl
-    reload(ogl)
     ogl.run_rc_channel(n, 2)
 ]]>
                 </scriptCode>
@@ -156,7 +152,6 @@ if n.type().name() != "redshift::TextureSampler":
     hou.ui.displayMessage('Please select a TextureSampler to Setup OGL')
 else:
     import materialBuild_RS.eg_setupOGL as ogl
-    reload(ogl)
     ogl.run_rc_channel(n, 3)
 ]]>
                 </scriptCode>
@@ -188,7 +183,6 @@ if n.type().name() != "redshift::TextureSampler":
     hou.ui.displayMessage('Please select a TextureSampler to Setup OGL')
 else:
     import materialBuild_RS.eg_setupOGL as ogl
-    reload(ogl)
     ogl.run_rc_channel(n, 4)
 ]]>
                 </scriptCode>
@@ -220,7 +214,6 @@ if n.type().name() != "redshift::NormalMap":
     hou.ui.displayMessage('Please select a RS-NormalMap to Setup OGL')
 else:
     import materialBuild_RS.eg_setupOGL as ogl
-    reload(ogl)
     ogl.run_rc_channel(n, 5)
 ]]>
                 </scriptCode>

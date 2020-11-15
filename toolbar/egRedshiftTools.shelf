@@ -32,7 +32,8 @@ eg_applyRSMat.ApplyRSMat()]]></script>
 
 """Creates a RS-Materialbuilder with a Material and Texture Network within it. Loads Textures and OpenGL-Shaders if needed"""]]></helpText>
     <script scriptType="python"><![CDATA[import materialBuild_RS.controller as matBuildRS
-reload(matBuildRS)
+#import importlib
+#importlib.reload(matBuildRS)
 matBuildRS.open()]]></script>
   </tool>
 
@@ -41,7 +42,6 @@ matBuildRS.open()]]></script>
 
 """Creates a RS-Materialbuilder with a Material for the current Selection. Also creates OpenGL Shaders. If nothing is selected blank Material is created"""]]></helpText>
     <script scriptType="python"><![CDATA[import eg_applyRSMat
-reload(eg_applyRSMat)
 eg_applyRSMat.run()]]></script>
   </tool>
 
@@ -50,7 +50,8 @@ eg_applyRSMat.run()]]></script>
 
 """This Script sets the current Viewport Camera to a Redshift Rop. Creates a Camera if there is none"""]]></helpText>
     <script scriptType="python"><![CDATA[import eg_camToROP
-reload(eg_camToROP)
+import importlib
+importlib.reload(eg_camToROP)
 eg_camToROP.run()]]></script>
   </tool>
 
@@ -59,7 +60,6 @@ eg_camToROP.run()]]></script>
 
 """Creates takes from the Selected Cameras. Also creates a ROP if there is none"""]]></helpText>
     <script scriptType="python"><![CDATA[import eg_takesFromCams
-reload(eg_takesFromCams)
 eg_takesFromCams.TakesFromCams()]]></script>
   </tool>
 
@@ -68,7 +68,8 @@ eg_takesFromCams.TakesFromCams()]]></script>
 
 """Provides a File Dialog and enables the User to convert a set of Textures"""]]></helpText>
     <script scriptType="python"><![CDATA[import materialBuild_RS.eg_convert as convert
-reload(convert)
+import importlib
+importlib.reload(convert)
 convert.run()]]></script>
   </tool>
 
@@ -77,13 +78,11 @@ convert.run()]]></script>
 
 """Sets Up OpenGL Shaders for the current selection"""]]></helpText>
     <script scriptType="python"><![CDATA[import materialBuild_RS.eg_setupOGL as ogl
-reload(ogl)
 ogl.run()]]></script>
   </tool>
 
   <tool name="clear OGL" label="clear OGL" icon="$EGRS_ICONS/redshift.png">
     <script scriptType="python"><![CDATA[import eg_clearOGL
-reload(eg_clearOGL)
 eg_clearOGL.run()]]></script>
   </tool>
 </shelfDocument>
