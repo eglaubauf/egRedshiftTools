@@ -22,7 +22,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-This script will create a Redshift Node Network based on a file selection
+This script will create a Takes from Existing Cameras
 
 Twitter: @eglaubauf
 Web: www.elmar-glaubauf.at

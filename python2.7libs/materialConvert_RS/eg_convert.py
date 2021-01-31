@@ -22,7 +22,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-This script will convert Textures to OCIO Format
+This script will convert Mantra to Redshift Nodes
 
 Twitter: @eglaubauf
 Web: www.elmar-glaubauf.at
