@@ -34,6 +34,7 @@ def run():
     """Run Script from Shelf"""
     f = hou.ui.selectFile(title="Please choose Files to create a Material from", collapse_sequences=False, image_chooser=False, multiple_select=True, file_type=hou.fileType.Image)
     c = convertOCIO()
+    c.ocio_check()
     c.set_files(f)
     c.convert()
 
@@ -58,6 +59,9 @@ class convertOCIO():
         else:
             self.files = files
 
+        # Array for Diffuse Texture Lookup. Add as it pleases
+        self.diffuse_lookup = ["base_color", "basecolor", "diffuse", "albedo", "diff", "col"]
+
     def set_files(self, files):
         """Set Files to Convert"""
         if files == "":
@@ -76,24 +80,11 @@ class convertOCIO():
             name = name[0][k + 1:]
 
             # Check which types have been selected. Config as you need
-            if "base_color" in name.lower() or "basecolor" in name.lower():
-                self.files["basecolor"] = s
-            # elif "roughness" in name.lower():
-            #     self.files["roughness"] = s
-            # elif "normal" in name.lower():
-            #     self.files["normal"] = s
-            # elif "metallic" in name.lower():
-            #     self.files["metallic"] = s
-            elif "reflect" in name.lower():
-                self.files["reflect"] = s
-            # elif "height" in name.lower():
-            #     self.files["height"] = s
-            # elif "displace" in name.lower():
-            #     self.files["displace"] = s
-            # elif "bump" in name.lower():
-            #     self.files["bump"] = s
-            # elif "ao" in name.lower() or "ambient_occlusion" in name:
-            #     self.files["ao"] = s
+            for d in self.diffuse_lookup:
+                if d in name.lower():
+                    self.files["basecolor"] = s
+                    continue
+            #f "base_color" in name.lower() or "basecolor" in name.lower() or "albedo" in name.lower() or "diffuse" in name.lower():
 
     def convert(self):
         """Converts Files"""
@@ -123,13 +114,11 @@ class convertOCIO():
         # Create ReadNode
         read = img.createNode("file")
 
-        # img.parm("linearize").set(0)
         # Set ColorSpace
         read.parm("linearize").set(0)
         read.parm("overridedepth").set(2)
         read.parm("depth").set(3)
-        # else:
-        #     read.parm("colorspace").set("srgb")
+
 
         # Create OCIO Node
         ocio = img.createNode("eg_ocio_convert")
@@ -153,7 +142,7 @@ class convertOCIO():
         namePos = channel.rfind(".")
         ext = channel[namePos:]
         name = channel[:namePos]
-        name = name + "_OCIO" + ext
+        name = name + "_ACEScg.exr"
 
         # Render
         rop.parm("copoutput").set(name)
@@ -167,9 +156,7 @@ class convertOCIO():
 
     def check_linear(self, channel):
         """Check if the File is linear"""
-        if channel.endswith("hdr"):
-            return True
-        if channel.endswith("exr"):
+        if channel.endswith("hdr") or channel.endswith("exr") :
             return True
         return False
 
