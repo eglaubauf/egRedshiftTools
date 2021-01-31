@@ -55,12 +55,14 @@ class convertOCIO():
                 "bump": None,
                 "ao": None
             }
-            # self.set_files(self.files)
+
         else:
             self.files = files
 
         # Array for Diffuse Texture Lookup. Add as it pleases
         self.diffuse_lookup = ["base_color", "basecolor", "diffuse", "albedo", "diff", "col"]
+        #Types of Textures to convert
+        self.filetypes = ["basecolor"]
 
     def set_files(self, files):
         """Set Files to Convert"""
@@ -84,14 +86,12 @@ class convertOCIO():
                 if d in name.lower():
                     self.files["basecolor"] = s
                     continue
-            #f "base_color" in name.lower() or "basecolor" in name.lower() or "albedo" in name.lower() or "diffuse" in name.lower():
 
     def convert(self):
         """Converts Files"""
-        if self.ocio_check():
-            for key in self.files:
-                if self.files[key]:
-                    self.files[key] = self.convert_file(self.files[key])
+        for key in self.filetypes:
+            if self.files[key]:
+                self.files[key] = self.convert_file(self.files[key])
         else:
             return False
 
@@ -99,7 +99,7 @@ class convertOCIO():
         """Check if OCIO is enabled"""
         # Check against OCIO
         if not hou.getenv("OCIO"):
-            hou.ui.displayMessage("Please enable OCIO to convert Textures")
+            hou.ui.displayMessage("Please set $OCIO to convert Textures")
             return False
         return True
 

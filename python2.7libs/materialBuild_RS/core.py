@@ -58,6 +58,17 @@ class Core():
             "ao": None,
         }
 
+        # Arrays for Texture Lookup. Add as it pleases
+        self.diffuse_lookup = ["base_color", "basecolor", "diffuse", "albedo", "diff", "col"]
+        self.rough_lookup = ["rough", "roughness", "gloss"]
+        self.refl_lookup = ["refl"]
+        self.metallic_lookup = ["metal", "mtl"]
+        self.displace_lookup = ["disp"]
+        self.normal_lookup = ["norm", "normal", "nor"]
+        self.bump_lookup = ["bump", "bmp"]
+        self.height_lookup = ["height"]
+        self.ao_lookup = ["ao", "ambient", "occlusion"]
+
     # Make Key Value Pairs for Filenames
     def set_files(self, files):
 
@@ -77,27 +88,44 @@ class Core():
             name = name[0][k + 1:]
 
             # Check which types have been selected. Config as you need
-            if "base_color" in name.lower() or "basecolor" in name.lower():
-                self.files["basecolor"] = s
-            elif "roughness" in name.lower():
-                self.files["roughness"] = s
-            elif "normal" in name.lower():
-                self.files["normal"] = s
-            elif "metallic" in name.lower():
-                self.files["metallic"] = s
-            elif "reflect" in name.lower():
-                self.files["reflect"] = s
-            elif "displace" in name.lower():
-                self.files["displace"] = s
-            elif "bump" in name.lower():
-                self.files["bump"] = s
-            elif "height" in name.lower():
-                if self.height_displace:  # User sets Height as Displacement
+            for d in self.diffuse_lookup:
+                if d in name.lower():
+                    self.files["basecolor"] = s
+
+            for d in self.rough_lookup:
+                if d in name.lower():
+                    self.files["roughness"] = s
+
+            for d in self.normal_lookup:
+                if d in name.lower():
+                    self.files["normal"] = s
+
+            for d in self.metallic_lookup:
+                if d in name.lower():
+                    self.files["metallic"] = s
+
+            for d in self.refl_lookup:
+                if d in name.lower():
+                    self.files["reflect"] = s
+
+            for d in self.displace_lookup:
+                if d in name.lower():
                     self.files["displace"] = s
-                else:
+
+            for d in self.bump_lookup:
+                if d in name.lower():
                     self.files["bump"] = s
-            elif "ao" in name.lower() or "ambient_occlusion" in name:
-                self.files["ao"] = s
+
+            for d in self.height_lookup:
+                if d in name.lower():
+                    if self.height_displace:  # User sets Height as Displacement
+                        self.files["displace"] = s
+                    else:
+                        self.files["bump"] = s
+
+            for d in self.ao_lookup:
+                if d in name.lower():
+                    self.files["ao"] = s
 
     def get_files(self):
         """Returns a dictionary of Files"""
@@ -192,6 +220,10 @@ class Core():
         # Create OGL Attributes
         if self.ogl:
             self.create_ogl_attribs()
+
+    def checkOCIO(self):
+        f = eg_convert.convertOCIO()
+        return f.ocio_check()
 
     def convert_tex(self):
         """Converts Textures to OCIO"""

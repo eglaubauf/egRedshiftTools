@@ -151,7 +151,10 @@ class Controller(QtWidgets.QDialog, view.Ui_RSMatBuilder):
 
     def set_convert(self):
         if self.cbx_convert.isChecked():
-            self.core.set_convert(True)
+            if self.core.checkOCIO():
+                self.core.set_convert(True)
+            else:
+                self.cbx_convert.setChecked(False)
         else:
             self.core.set_convert(False)
 
