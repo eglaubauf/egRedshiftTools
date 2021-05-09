@@ -28,19 +28,10 @@ Twitter: @eglaubauf
 Web: www.elmar-glaubauf.at
 """
 import hou
-<<<<<<< HEAD:python3.7libs/materialBuild_RS/eg_setupOGL.py
 from materialBuild_RS import Node
-=======
-import materialBuild_RS.Node as Node
->>>>>>> 2f9460c8da58ec9d71c3ea617a10dedcde7f7744:python3.7libs/materialBuild_RS/eg_setupOGL.py
 from collections import Iterable
-# import importlib
 
-<<<<<<< HEAD:python3.7libs/materialBuild_RS/eg_setupOGL.py
 #reload(Node)
-=======
-# importlib.reload(Node)
->>>>>>> 2f9460c8da58ec9d71c3ea617a10dedcde7f7744:python3.7libs/materialBuild_RS/eg_setupOGL.py
 
 
 # Run from Shelf Tool

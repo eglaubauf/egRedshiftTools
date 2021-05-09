@@ -32,8 +32,8 @@ import materialBuild_RS.view as view
 # Where is this script?
 # SCRIPT_LOC = os.path.split(__file__)[0]
 
-# reload(core)
-# reload(view)
+reload(core)
+reload(view)
 
 '''
 Open with

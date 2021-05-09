@@ -32,14 +32,8 @@ import materialBuild_RS.view as view
 # Where is this script?
 # SCRIPT_LOC = os.path.split(__file__)[0]
 
-<<<<<<< HEAD:python3.7libs/materialBuild_RS/controller.py
 #reload(core)
 #reload(view)
-=======
-import importlib
-importlib.reload(core)
-importlib.reload(view)
->>>>>>> 2f9460c8da58ec9d71c3ea617a10dedcde7f7744:python3.7libs/materialBuild_RS/controller.py
 
 '''
 Open with
@@ -57,9 +51,8 @@ tmpWindow = None
 def open(develop=False):
 
     if develop:
-        pass
-        #reload(core)
-        #reload(view)
+        reload(core)
+        reload(view)
     try:
         tmpWindow.close()
     except:
@@ -196,6 +189,5 @@ class Controller(QtWidgets.QDialog, view.Ui_RSMatBuilder):
     # Execute Material Creation
     def execute(self):
         self.apply_user_settings()
-        #hou.ui.displayMessage("Success")
         self.core.create_material()
         self.destroy()

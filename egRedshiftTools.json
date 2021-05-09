@@ -1,25 +1,15 @@
 {
     "env": [
         {
-            "EGRS": "C:/Users/Elmar/Documents/Git/egRedshiftTools"
+            "EGRS": "C:/Git/egRedshiftTools"
 
         },
         {
-            "HOUDINI_OTLSCAN_PATH": [
-                "$EGRS/otls",
-                {
-                   "method": "append"
-                }
-            ]
+            "HOUDINI_OTLSCAN_PATH": "$EGRS/otls"
         },
         {
             "EGRS_ICONS": "$EGRS/icons"
         }
     ],
-    "path": [
-        "$EGRS",
-    {
-       "method": "append"
-    }
-   ]
+    "path": "$EGRS"
 }

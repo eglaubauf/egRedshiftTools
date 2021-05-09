@@ -50,10 +50,6 @@ def run():  # our cam object
 def set_cam_for_render(cam):
     """Sets the given Camera in the active Render ROP"""
 
-    if not cam:
-        hou.ui.displayMessage("Please select a Cam for the Current viewport")
-        return
-
     out = hou.node("/out")
 
     for o in out.children():
