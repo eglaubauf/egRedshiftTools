@@ -23,15 +23,10 @@
 # THE SOFTWARE.
 
 import hou
-import eg_RSMat
-import eg_setupOGL
-import eg_convert
+from materialBuild_RS import eg_RSMat
+from materialBuild_RS import eg_setupOGL
+from materialBuild_RS import eg_convert
 import re
-
-reload(eg_RSMat)
-reload(eg_setupOGL)
-reload(eg_convert)
-
 
 class Core():
 

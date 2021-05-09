@@ -32,9 +32,6 @@ import materialBuild_RS.eg_RSMat as rs_mat
 import materialBuild_RS.eg_setupOGL as ogl
 import eg_applyRSMat
 
-# reload(ogl)
-# reload(rs_mat)
-# reload(eg_applyRSMat)
 
 def run():
     """Run Script from Shelf"""
@@ -54,9 +51,9 @@ class convertMantraToRS():
         self.convert_and_replace = True
 
 
-    def debug(self):
-        for m in self.mantra_mats:
-            print m
+    # def debug(self):
+    #     for m in self.mantra_mats:
+    #         print m
 
     def getNodes(self):
 

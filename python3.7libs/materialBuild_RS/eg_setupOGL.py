@@ -28,10 +28,10 @@ Twitter: @eglaubauf
 Web: www.elmar-glaubauf.at
 """
 import hou
-import Node
+from materialBuild_RS import Node
 from collections import Iterable
 
-reload(Node)
+#reload(Node)
 
 
 # Run from Shelf Tool
