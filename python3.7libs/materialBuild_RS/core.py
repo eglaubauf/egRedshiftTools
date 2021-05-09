@@ -23,11 +23,25 @@
 # THE SOFTWARE.
 
 import hou
+<<<<<<< HEAD:python3.7libs/materialBuild_RS/core.py
 from materialBuild_RS import eg_RSMat
 from materialBuild_RS import eg_setupOGL
 from materialBuild_RS import eg_convert
 import re
 
+=======
+import materialBuild_RS.eg_RSMat as eg_RSMat
+import materialBuild_RS.eg_setupOGL as eg_setupOGL
+import materialBuild_RS.eg_convert as eg_convert
+import re
+
+import importlib
+importlib.reload(eg_RSMat)
+importlib.reload(eg_setupOGL)
+importlib.reload(eg_convert)
+
+
+>>>>>>> 2f9460c8da58ec9d71c3ea617a10dedcde7f7744:python3.7libs/materialBuild_RS/core.py
 class Core():
 
     def __init__(self):

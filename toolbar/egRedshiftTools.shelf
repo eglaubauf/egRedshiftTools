@@ -13,7 +13,10 @@
     <memberTool name="setup OGL"/>
     <memberTool name="convert OCIO"/>
     <memberTool name="clear OGL"/>
+<<<<<<< HEAD
     <memberTool name="ConvertMantra"/>
+=======
+>>>>>>> 2f9460c8da58ec9d71c3ea617a10dedcde7f7744
   </toolshelf>
 
   <tool name="RS MaterialBuild" label="RSMaterialBuild" icon="$EGRS_ICONS/redshift.png">
@@ -32,9 +35,15 @@ eg_applyRSMat.ApplyRSMat()]]></script>
     <helpText><![CDATA[= MaterialBuilder =
 
 """Creates a RS-Materialbuilder with a Material and Texture Network within it. Loads Textures and OpenGL-Shaders if needed"""]]></helpText>
+<<<<<<< HEAD
     <script scriptType="python"><![CDATA[import importlib as imp
 import materialBuild_RS.controller as matBuildRS
 imp.reload(matBuildRS)
+=======
+    <script scriptType="python"><![CDATA[import materialBuild_RS.controller as matBuildRS
+#import importlib
+#importlib.reload(matBuildRS)
+>>>>>>> 2f9460c8da58ec9d71c3ea617a10dedcde7f7744
 matBuildRS.open()]]></script>
   </tool>
 
@@ -42,9 +51,13 @@ matBuildRS.open()]]></script>
     <helpText><![CDATA[= Apply Material =
 
 """Creates a RS-Materialbuilder with a Material for the current Selection. Also creates OpenGL Shaders. If nothing is selected blank Material is created"""]]></helpText>
+<<<<<<< HEAD
     <script scriptType="python"><![CDATA[import importlib as imp
 import eg_applyRSMat
 imp.reload(eg_applyRSMat)
+=======
+    <script scriptType="python"><![CDATA[import eg_applyRSMat
+>>>>>>> 2f9460c8da58ec9d71c3ea617a10dedcde7f7744
 eg_applyRSMat.run()]]></script>
   </tool>
 
@@ -52,9 +65,15 @@ eg_applyRSMat.run()]]></script>
     <helpText><![CDATA[= CamToRop =
 
 """This Script sets the current Viewport Camera to a Redshift Rop. Creates a Camera if there is none"""]]></helpText>
+<<<<<<< HEAD
     <script scriptType="python"><![CDATA[import importlib as imp
 import eg_camToROP
 imp.reload(eg_camToROP)
+=======
+    <script scriptType="python"><![CDATA[import eg_camToROP
+import importlib
+importlib.reload(eg_camToROP)
+>>>>>>> 2f9460c8da58ec9d71c3ea617a10dedcde7f7744
 eg_camToROP.run()]]></script>
   </tool>
 
@@ -62,9 +81,13 @@ eg_camToROP.run()]]></script>
     <helpText><![CDATA[= Create Takes from Selection =
 
 """Creates takes from the Selected Cameras. Also creates a ROP if there is none"""]]></helpText>
+<<<<<<< HEAD
     <script scriptType="python"><![CDATA[import importlib as imp
 import eg_takesFromCams
 imp.reload(eg_takesFromCams)
+=======
+    <script scriptType="python"><![CDATA[import eg_takesFromCams
+>>>>>>> 2f9460c8da58ec9d71c3ea617a10dedcde7f7744
 eg_takesFromCams.TakesFromCams()]]></script>
   </tool>
 
@@ -72,9 +95,15 @@ eg_takesFromCams.TakesFromCams()]]></script>
     <helpText><![CDATA[= Convert Textures to OCIO =
 
 """Provides a File Dialog and enables the User to convert a set of Textures"""]]></helpText>
+<<<<<<< HEAD
     <script scriptType="python"><![CDATA[import importlib as imp
 import materialBuild_RS.eg_convert as convert
 imp.reload(convert)
+=======
+    <script scriptType="python"><![CDATA[import materialBuild_RS.eg_convert as convert
+import importlib
+importlib.reload(convert)
+>>>>>>> 2f9460c8da58ec9d71c3ea617a10dedcde7f7744
 convert.run()]]></script>
   </tool>
 
@@ -82,16 +111,24 @@ convert.run()]]></script>
     <helpText><![CDATA[= Setup OpenGL Shaders =
 
 """Sets Up OpenGL Shaders for the current selection"""]]></helpText>
+<<<<<<< HEAD
     <script scriptType="python"><![CDATA[import importlib as imp
 import materialBuild_RS.eg_setupOGL as ogl
 imp.reload(ogl)
+=======
+    <script scriptType="python"><![CDATA[import materialBuild_RS.eg_setupOGL as ogl
+>>>>>>> 2f9460c8da58ec9d71c3ea617a10dedcde7f7744
 ogl.run()]]></script>
   </tool>
 
   <tool name="clear OGL" label="clear OGL" icon="$EGRS_ICONS/redshift.png">
+<<<<<<< HEAD
     <script scriptType="python"><![CDATA[import importlib as imp
 import eg_clearOGL
 imp.reload(eg_clearOGL)
+=======
+    <script scriptType="python"><![CDATA[import eg_clearOGL
+>>>>>>> 2f9460c8da58ec9d71c3ea617a10dedcde7f7744
 eg_clearOGL.run()]]></script>
   </tool>
 </shelfDocument>

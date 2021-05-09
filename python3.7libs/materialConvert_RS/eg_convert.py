@@ -22,7 +22,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
+<<<<<<< HEAD
 This script will convert Mantra to Redshift Nodes
+=======
+This script will convert Textures to OCIO Format
+>>>>>>> 2f9460c8da58ec9d71c3ea617a10dedcde7f7744
 
 Twitter: @eglaubauf
 Web: www.elmar-glaubauf.at
@@ -32,13 +36,29 @@ import materialBuild_RS.eg_RSMat as rs_mat
 import materialBuild_RS.eg_setupOGL as ogl
 import eg_applyRSMat
 
+<<<<<<< HEAD
+=======
+# reload(ogl)
+# reload(rs_mat)
+# reload(eg_applyRSMat)
+>>>>>>> 2f9460c8da58ec9d71c3ea617a10dedcde7f7744
 
 def run():
     """Run Script from Shelf"""
 
+<<<<<<< HEAD
     c = convertMantraToRS()
     if c.getNodes():
         c.createMaterialFromMantra()
+=======
+
+    c = convertMantraToRS()
+    #c.set_files(f)
+    c.getNodes()
+    c.createMaterialFromMantra()
+    #c.debug()
+    #c.convert()
+>>>>>>> 2f9460c8da58ec9d71c3ea617a10dedcde7f7744
 
 
 class convertMantraToRS():
@@ -48,6 +68,7 @@ class convertMantraToRS():
         self.context = hou.node("/mat")
         self.nodes = None
         self.mantra_mats = []  # Nodes
+<<<<<<< HEAD
         self.convert_and_replace = True
 
 
@@ -101,17 +122,55 @@ class convertMantraToRS():
             context = material.node("..")
 
             materialHandler = rs_mat.RSMat(context, name)
+=======
+        pass
+
+    def debug(self):
+        for m in self.mantra_mats:
+            print m
+
+    def getNodes(self):
+        """ Gets Nodes from User"""
+        self.nodes = hou.selectedNodes()
+        if self.nodes is None:
+            self.destroy()
+        for n in self.nodes:
+            if n.type().name() == "geo":
+                if n.parm("shop_materialpath").evalAsString != "":
+
+                    tupe = (n, n.parm("shop_materialpath").evalAsNode())
+                    self.mantra_mats.append(tupe)
+
+    def createMaterialFromMantra(self):
+
+        for m in self.mantra_mats:
+
+            if m[1] is None:
+                continue
+            if m[1].type().name() != "principledshader::2.0":
+                continue  # Skip
+
+            node = m[0]
+            material = m[1]
+
+            name = material.name()
+            materialHandler = rs_mat.RSMat(self.context, name)
+>>>>>>> 2f9460c8da58ec9d71c3ea617a10dedcde7f7744
             materialHandler.create_material()
 
             mb = materialHandler.get_material_builder()
 
             self.transferAttributes(material, materialHandler)
 
+<<<<<<< HEAD
             if self.convert_and_replace:
                 material.destroy()
                 mb.setName(name)
 
             #material.parm("shop_materialpath").set(materialHandler.get_path())
+=======
+            node.parm("shop_materialpath").set(materialHandler.get_path())
+>>>>>>> 2f9460c8da58ec9d71c3ea617a10dedcde7f7744
 
             # Link OpenGl
             o = ogl.rsOGL()
@@ -123,12 +182,23 @@ class convertMantraToRS():
 
         new_mat = m_handler.get_rsMat()
 
+<<<<<<< HEAD
         #Set Diffuse
 
         new_mat.parm("diffuse_colorr").set(old_mat.parm("basecolorr").eval())
         new_mat.parm("diffuse_colorg").set(old_mat.parm("basecolorg").eval())
         new_mat.parm("diffuse_colorb").set(old_mat.parm("basecolorb").eval())
         new_mat.parm("diffuse_weight").set(old_mat.parm("albedomult").eval())
+=======
+
+        #Set Diffuse
+        new_mat.parm("diffuse_colorr").set(old_mat.parm("basecolorr").eval())
+        new_mat.parm("diffuse_colorg").set(old_mat.parm("basecolorg").eval())
+        new_mat.parm("diffuse_colorb").set(old_mat.parm("basecolorb").eval())
+
+        new_mat.parm("diffuse_weight").set(old_mat.parm("albedomult").eval())
+        new_mat.parm("diffuse_roughness").set(old_mat.parm("rough").eval())
+>>>>>>> 2f9460c8da58ec9d71c3ea617a10dedcde7f7744
 
         #Set Reflect
         new_mat.parm("refl_weight").set(old_mat.parm("reflect").eval())
@@ -151,10 +221,17 @@ class convertMantraToRS():
         new_mat.parm("ms_amount").set(old_mat.parm("sss").eval())
 
         #Emit
+<<<<<<< HEAD
         new_mat.parm("emission_colorr").set(old_mat.parm("emitcolorr").eval())
         new_mat.parm("emission_colorg").set(old_mat.parm("emitcolorg").eval())
         new_mat.parm("emission_colorb").set(old_mat.parm("emitcolorb").eval())
         new_mat.parm("emission_colorb").set(old_mat.parm("emitint").eval())
+=======
+        new_mat.parm("diffuse_colorr").set(old_mat.parm("emitcolorr").eval())
+        new_mat.parm("diffuse_colorg").set(old_mat.parm("emitcolorg").eval())
+        new_mat.parm("diffuse_colorb").set(old_mat.parm("emitcolorb").eval())
+        new_mat.parm("diffuse_colorb").set(old_mat.parm("emitint").eval())
+>>>>>>> 2f9460c8da58ec9d71c3ea617a10dedcde7f7744
 
         if old_mat.parm("basecolor_useTexture").eval():
             diffuse_tex = old_mat.parm("basecolor_texture").evalAsString()

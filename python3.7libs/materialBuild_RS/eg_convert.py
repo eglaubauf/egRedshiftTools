@@ -82,10 +82,31 @@ class convertOCIO():
             name = name[0][k + 1:]
 
             # Check which types have been selected. Config as you need
+<<<<<<< HEAD:python3.7libs/materialBuild_RS/eg_convert.py
             for d in self.diffuse_lookup:
                 if d in name.lower():
                     self.files["basecolor"] = s
                     continue
+=======
+            if "base_color" in name.lower() or "basecolor" in name.lower() or "col" in name.lower():
+                self.files["basecolor"] = s
+            # elif "roughness" in name.lower():
+            #     self.files["roughness"] = s
+            # elif "normal" in name.lower():
+            #     self.files["normal"] = s
+            # elif "metallic" in name.lower():
+            #     self.files["metallic"] = s
+            elif "reflect" in name.lower():
+                self.files["reflect"] = s
+            # elif "height" in name.lower():
+            #     self.files["height"] = s
+            # elif "displace" in name.lower():
+            #     self.files["displace"] = s
+            # elif "bump" in name.lower():
+            #     self.files["bump"] = s
+            # elif "ao" in name.lower() or "ambient_occlusion" in name:
+            #     self.files["ao"] = s
+>>>>>>> 2f9460c8da58ec9d71c3ea617a10dedcde7f7744:python3.7libs/materialBuild_RS/eg_convert.py
 
     def convert(self):
         """Converts Files"""

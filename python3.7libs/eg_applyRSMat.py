@@ -33,8 +33,14 @@ import materialBuild_RS.eg_RSMat as rs_mat
 import materialBuild_RS.eg_setupOGL as ogl
 from collections import Iterable
 
+<<<<<<< HEAD:python3.7libs/eg_applyRSMat.py
 # reload(rs_mat)
 # reload(ogl)
+=======
+# import importlib
+# importlib.reload(rs_mat)
+# importlib.reload(ogl)
+>>>>>>> 2f9460c8da58ec9d71c3ea617a10dedcde7f7744:python3.7libs/eg_applyRSMat.py
 
 
 def run(n=None):
