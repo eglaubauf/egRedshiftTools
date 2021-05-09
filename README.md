@@ -2,6 +2,9 @@
 
 A collection of scripts for Redshift in SideFx Houdini
 
+## Updates:
+There is now initial python 3 support in the dev-branch
+
 ## Features:
 
 - MaterialBuilder with a set of Options which include:
